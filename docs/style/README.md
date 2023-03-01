@@ -132,7 +132,7 @@ namespace MyNamespace
 		void DoNothing() {}
 
 		void AVeryLongFunctionNameThatCausesLineWrappingProblems(int longArgumentName,
-																 int p1, int p2) {}
+									 int p1, int p2) {}
 
 		void AnotherLongFunctionNameThatCausesLineWrappingProblems(
 			int longArgumentName, int longArgumentName2, int longArgumentName3) {}
@@ -142,7 +142,7 @@ namespace MyNamespace
 			int veryLongArgumentName = 1234;
 			int shortArg = 1;
 			AnotherLongFunctionNameThatCausesLineWrappingProblems(arg,
-																  veryLongArg);
+									      veryLongArg);
 			AnotherLongFunctionNameThatCausesLineWrappingProblems(
 				veryLongArgumentName, veryLongArgumentName, veryLongArgumentName);
 		}
