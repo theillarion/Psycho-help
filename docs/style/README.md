@@ -69,23 +69,23 @@ namespace MyNamespace
 
     	private class Results
 		{
-      		public int NumNegativeResults = 0;
-      		public int NumPositiveResults = 0;
-    	}
+      			public int NumNegativeResults = 0;
+      			public int NumPositiveResults = 0;
+    		}
 
-    	private Results _results;
-    	public static int NumTimesCalled = 0;
-    	private const int _bar = 100;
-    	private int[] _someTable = {2, 3, 4}
+		private Results _results;
+		public static int NumTimesCalled = 0;
+		private const int _bar = 100;
+		private int[] _someTable = {2, 3, 4}
 
-    	public MyClass()
+		public MyClass()
 		{
-      		_results = new Results
-			{
-        		NumNegativeResults = 1,
-        		NumPositiveResults = 1,
-      		};
-    	}
+			_results = new Results
+				{
+				NumNegativeResults = 1,
+				NumPositiveResults = 1,
+			};
+		}
 
 		public int CalculateValue(int mulNumber)
 		{
