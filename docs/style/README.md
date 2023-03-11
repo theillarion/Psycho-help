@@ -53,25 +53,25 @@ namespace MyNamespace
 {
 	public interface IMyInterface
 	{
-    	public int Calculate(float value, float exp);
+    		public int Calculate(float value, float exp);
 	}
 
 	public enum MyEnum
 	{
-    	Yes,
-    	No,
+		Yes,
+		No,
   	}
 
   	public class MyClass
 	{                            
-    	public int Foo = 0;
-    	public bool NoCounting = false;
+		public int Foo = 0;
+		public bool NoCounting = false;
 
-    	private class Results
+		private class Results
 		{
-      			public int NumNegativeResults = 0;
-      			public int NumPositiveResults = 0;
-    		}
+			public int NumNegativeResults = 0;
+			public int NumPositiveResults = 0;
+		}
 
 		private Results _results;
 		public static int NumTimesCalled = 0;
@@ -81,7 +81,7 @@ namespace MyNamespace
 		public MyClass()
 		{
 			_results = new Results
-				{
+			{
 				NumNegativeResults = 1,
 				NumPositiveResults = 1,
 			};
