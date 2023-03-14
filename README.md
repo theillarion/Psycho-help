@@ -1,1 +1,1 @@
-## Psiho help
+## Psycho help
