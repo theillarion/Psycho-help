@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using App.Helper;
-using App.Helper.Converts;
+using App.Helper.Enums;
 using App.Helper.Exceptions;
 using App.Helper.Extensions;
 using App.Model;
@@ -16,7 +16,7 @@ namespace App.Services
     public class DbService : IDbService
     {
         private readonly DbConnection _connection;
-        private const string NameTable = "User2";
+        private const string NameTable = "User";
 
         public DbService(DbConnection connection, bool needOpenConnection = true)
         {

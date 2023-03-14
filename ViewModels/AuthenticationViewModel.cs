@@ -10,6 +10,7 @@ using App.Helper.Converts;
 using App.Helper.Exceptions;
 using App.Model;
 using App.Services;
+using App.Helper.Enums;
 
 namespace App.ViewModels
 {

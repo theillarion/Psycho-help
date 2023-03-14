@@ -5,7 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using App.Helper.Converts;
+using App.Helper.Enums;
 using App.Helper.Exceptions;
 using App.Helper.Extensions;
 using App.Model;
@@ -15,7 +15,7 @@ namespace App.Services
     internal class DbAsyncService : IDbAsyncService
     {
         private readonly DbConnection _connection;
-        private const string NameTable = "User2";
+        private const string NameTable = "User";
 
         public DbAsyncService(DbConnection connection, bool needOpenConnection = true)
         {
