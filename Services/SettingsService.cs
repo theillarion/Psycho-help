@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using App.Helper;
+using Xk7.Helper;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
-namespace App.Services
+namespace Xk7.Services
 {
     public static class DbSettingsService
     {

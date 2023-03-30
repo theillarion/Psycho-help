@@ -4,10 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using App.Helper;
-using App.Helper.Converts;
+using Xk7.Helper;
+using Xk7.Helper.Converts;
 
-namespace App.Model
+namespace Xk7.Model
 {
     internal class DbUser : IDbUser
     {

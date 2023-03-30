@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Helper.Exceptions
+namespace Xk7.Helper.Exceptions
 {
     public class ConnectionException : Exception
     {

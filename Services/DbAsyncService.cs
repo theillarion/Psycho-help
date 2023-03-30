@@ -5,12 +5,12 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using App.Helper.Enums;
-using App.Helper.Exceptions;
-using App.Helper.Extensions;
-using App.Model;
+using Xk7.Helper.Enums;
+using Xk7.Helper.Exceptions;
+using Xk7.Helper.Extensions;
+using Xk7.Model;
 
-namespace App.Services
+namespace Xk7.Services
 {
     internal class DbAsyncService : IDbAsyncService
     {

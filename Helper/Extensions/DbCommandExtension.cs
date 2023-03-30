@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Helper.Extensions
+namespace Xk7.Helper.Extensions
 {
     public static class DbCommandExtension
     {

@@ -1,6 +1,7 @@
-﻿using App.Helper.Enums;
+﻿using Xk7.Helper.Enums;
+using System;
 
-namespace App.Model
+namespace Xk7.Model
 {
     public class User
     {

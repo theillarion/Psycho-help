@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using App.Helper.Enums;
-using App.Model;
+using Xk7.Helper.Enums;
+using Xk7.Model;
 
-namespace App.Services
+namespace Xk7.Services
 {
     public interface IDbService
     {

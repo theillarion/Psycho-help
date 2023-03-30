@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using App.Helper;
-using App.Helper.Converts;
-using App.Helper.Exceptions;
-using App.Model;
-using App.Services;
-using App.Helper.Enums;
+using Xk7.Helper;
+using Xk7.Helper.Converts;
+using Xk7.Helper.Exceptions;
+using Xk7.Model;
+using Xk7.Services;
+using Xk7.Helper.Enums;
 
-namespace App.ViewModels
+namespace Xk7.ViewModels
 {
     internal class AuthenticationViewModel
     {
@@ -86,7 +86,6 @@ namespace App.ViewModels
                 //
             }
         }
-
         public async Task RegisterAsync(User user)
         {
             //

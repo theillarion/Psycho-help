@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Helper.Enums
+namespace Xk7.Helper.Enums
 {
     public enum UserRole
     {

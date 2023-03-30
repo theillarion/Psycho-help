@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using App.Model;
-using App.Helper;
-using App.Helper.Exceptions;
+using Xk7.Model;
+using Xk7.Helper;
+using Xk7.Helper.Exceptions;
 
-namespace App.Helper
+namespace Xk7.Helper
 {
     public static class UserFactory
     {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using App.Helper.Converts;
+using Xk7.Helper.Converts;
 
-namespace App.Model
+namespace Xk7.Model
 {
     public class HashedValue
     {

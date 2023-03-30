@@ -1,9 +1,10 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.IO;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
-namespace App.Helper
+namespace Xk7.Helper
 {
     public static class AppEnvironment
     {
