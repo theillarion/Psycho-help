@@ -1,5 +1,4 @@
-﻿using psyho_help.logic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,37 +12,32 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static psyho_help.logic.IAuthenfication;
 
 namespace psyho_help.pages
 {
     /// <summary>
     /// Логика взаимодействия для auth.xaml
     /// </summary>
-    public partial class auth : Page
+    public partial class Auth : Page
     {
-        Authenfication authenfication = new Authenfication();
+        // // Authenfication authenfication = new Authenfication();
         // По дефолту при входе в окно авторизации клиентом является User
-        TypeUser typeUser = TypeUser.User;
-        string DefaultLogin = "Введите логин...";
-        string DefaultPassword = "Введите пароль...";
+        // // TypeUser typeUser = TypeUser.User;
+        const string DefaultLogin = "Введите логин...";
+        const string DefaultPassword = "Введите пароль...";
 
-        public auth()
+        public Auth()
         {
             InitializeComponent();
             AuthExceptionTextBox.Visibility = Visibility.Hidden;
         }
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
 
-
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void passTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
+        //}
+        //private void passTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //}
 
         private void loginTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -105,24 +99,24 @@ namespace psyho_help.pages
             }
             
         }
-
-
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
             // Клиент выбирает кнопку зарегестрироваться в поле авторизации
-            authFrame.Navigate(new registration());
+            authFrame.Navigate(new Registration());
         }
-
         private void employeeLoginButton_Click(object sender, RoutedEventArgs e)
         {
             AuthExceptionTextBox.Visibility = Visibility.Hidden;
-            typeUser = TypeUser.Employee;
+            //typeUser = TypeUser.Employee;
             loginTextBox.Text = DefaultLogin;
             loginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
             passTextBox.Text = DefaultPassword;
             passTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
         }
 
-    
-}
+        private void authFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+
+        }
+    }
 }

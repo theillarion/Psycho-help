@@ -12,22 +12,87 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static psyho_help.logic.IAuthenfication;
 
 namespace psyho_help.pages
 {
     /// <summary>
     /// Логика взаимодействия для registration.xaml
     /// </summary>
-    public partial class registration : Page
+    public partial class Registration : Page
     {
-        TypeUser typeUser = TypeUser.User;
+        //TypeUser typeUser = TypeUser.User;
         const string DefaultName = "Введите имя...";
         const string DefaultSecondName = "Введите фамилию...";
         const string DefaultLogin = "Введите логин...";
         const string DefaultPassword = "Введите пароль...";
+        
+        public Registration()
+        {
+            InitializeComponent();
+            RegistrationExceptionTextBox.Visibility = Visibility.Hidden;
+        }
+        private void LoginTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBox regLoginTextBox = (TextBox) sender;
+            if (regLoginTextBox.Text.Trim() != string.Empty)
+            {
+                regLoginTextBox.Text = string.Empty;
+                regLoginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
+            }
+            RemoveEmptyFields("Login");
+        }
 
-        internal void RemoveEmptyFields(string CurrentField)
+        private void PassTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBox regPassTextBox = (TextBox)sender;
+            if (regPassTextBox.Text.Trim() != string.Empty)
+            {
+                regPassTextBox.Text = string.Empty;
+                regPassTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
+            }
+            RemoveEmptyFields("Password");
+        }
+
+        private void NameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBox regNameTextBox = (TextBox)sender;
+            if (regNameTextBox.Text.Trim() != string.Empty)
+            {
+                regNameTextBox.Text = string.Empty;
+                regNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
+            }
+            RemoveEmptyFields("Name");
+        }
+
+        private void SecondNameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBox regSecondNameTextBox = (TextBox)sender;
+            if (regSecondNameTextBox.Text.Trim() != string.Empty)
+            {
+                regSecondNameTextBox.Text = string.Empty;
+                regSecondNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
+            }
+            RemoveEmptyFields("SecondName");
+        }
+
+        private void datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            datePicker.SetCurrentValue(ForegroundProperty, Brushes.Black);
+            RemoveEmptyFields("Date");
+        }
+
+        private void regRegistrationClick(object sender, RoutedEventArgs e)
+        {
+            // заглушка для регистрации пользователя
+        }
+
+        private void regBackClick(object sender, RoutedEventArgs e)
+        {
+            RegistrationFrame.Navigate(new Auth());
+        }
+
+        // TODO: Fix
+        private void RemoveEmptyFields(string CurrentField)
         {
             switch (CurrentField)
             {
@@ -124,73 +189,6 @@ namespace psyho_help.pages
                     }
                     break;
             }
-        }
-        public registration()
-        {
-            InitializeComponent();
-            RegistrationExceptionTextBox.Visibility = Visibility.Hidden;
-        }
-
-
-        private void LoginTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBox regLoginTextBox = (TextBox) sender;
-            if (regLoginTextBox.Text.Trim() != string.Empty)
-            {
-                regLoginTextBox.Text = string.Empty;
-                regLoginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
-            }
-            RemoveEmptyFields("Login");
-        }
-
-        private void PassTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBox regPassTextBox = (TextBox)sender;
-            if (regPassTextBox.Text.Trim() != string.Empty)
-            {
-                regPassTextBox.Text = string.Empty;
-                regPassTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
-            }
-            RemoveEmptyFields("Password");
-        }
-
-        private void NameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBox regNameTextBox = (TextBox)sender;
-            if (regNameTextBox.Text.Trim() != string.Empty)
-            {
-                regNameTextBox.Text = string.Empty;
-                regNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
-            }
-            RemoveEmptyFields("Name");
-        }
-
-        private void SecondNameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBox regSecondNameTextBox = (TextBox)sender;
-            if (regSecondNameTextBox.Text.Trim() != string.Empty)
-            {
-                regSecondNameTextBox.Text = string.Empty;
-                regSecondNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
-            }
-            RemoveEmptyFields("SecondName");
-        }
-
-        private void datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            datePicker.SetCurrentValue(ForegroundProperty, Brushes.Black);
-            RemoveEmptyFields("Date");
-            
-        }
-
-        private void regRegistrationClick(object sender, RoutedEventArgs e)
-        {
-            // заглушка для регистрации пользователя
-        }
-
-        private void regBackClick(object sender, RoutedEventArgs e)
-        {
-            RegistrationFrame.Navigate(new auth());
         }
     }
 }
