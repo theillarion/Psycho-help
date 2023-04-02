@@ -61,7 +61,7 @@ namespace Xk7 {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на XK7-Retail-Group.
+        ///   Ищет локализованную строку, похожую на Psycho-Help.
         /// </summary>
         public static string ProjectName {
             get {
