@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Xk7.pages"
       xmlns:viewModel="clr-namespace:Xk7.ViewModels"
+      xmlns:Xk7="clr-namespace:Xk7"
       mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="1248"
       Title="auth">
@@ -166,7 +167,7 @@
         </Grid.Background>
 
         <Label Content="Вход в систему" HorizontalAlignment="Center" Margin="0,265,0,0" VerticalAlignment="Top" Height="36" Width="240" Foreground="#FFB5B5B5" FontFamily="Lucida Console" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Label Content="XK7-Retail-Group" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="497" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="{x:Static Xk7:ProjectInfo.ProjectName}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="497" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <TextBox Style="{DynamicResource RoundedTextBoxStyle}" x:Name="loginTextBox" VerticalContentAlignment="Center" HorizontalAlignment="Center" Text="Введите логин..." VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="loginTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,315,0,0"/>
         <TextBox Style="{DynamicResource RoundedTextBoxStyle}" x:Name="passTextBox" VerticalContentAlignment="Center" HorizontalAlignment="Center" Text="Введите пароль..." VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="passTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,357,0,0"/>
 
