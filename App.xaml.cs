@@ -12,5 +12,9 @@ namespace Xk7
 {
     public partial class App : Application
     {
+        App()
+        {
+            UICultureService.SetCulture(new CultureInfo("en"));
+        }
     }
 }
