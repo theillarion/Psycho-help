@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xk7.Services;
 using MySql.Data.MySqlClient;
+using Xk7.Helper.Enums;
 
 namespace Xk7.pages
 {
@@ -90,8 +91,8 @@ namespace Xk7.pages
         }
         private async void loginClick(object sender, RoutedEventArgs e)
         {
-            string login = loginTextBox.Text.Trim();
-            string password = passTextBox.Text.Trim();
+            var login = loginTextBox.Text.Trim();
+            var password = passTextBox.Text.Trim();
             try
             {
                 var row = await _dbService.GetDataUserByLoginAsync(login);
@@ -100,14 +101,24 @@ namespace Xk7.pages
                 else
                 {
                     var user = UserFactory.FromDataRow<DbUser>(row);
-                    if (Converts.ConvertByteArrayToString(user.HashPassword)
-                        != Converts.ConvertStringToHeshString(password))
-                        SetError("The password is incorrect.");
+                    if (user == null)
+                        SetError("An unknown error occurred. Try again.");
                     else if (user.IsBlocked)
+                    {
                         SetError("User is blocked.");
+                        await _dbService.AddLog(login, LoggingType.FailedAuthenticationUserBanned);
+                    }
+                        
+                    else if (Converts.ConvertByteArrayToString(user.HashPassword)
+                             != Converts.ConvertStringToHeshString(password))
+                    {
+                        SetError("The password is incorrect.");
+                        await _dbService.AddLog(login, LoggingType.FailedAuthenticationWrongPassword);
+                    }
                     else
                     {
                         MessageBox.Show("User has been successfully authorized", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        await _dbService.AddLog(login, LoggingType.SuccessAuthentication);
                     }
                 }
             }
@@ -121,7 +132,7 @@ namespace Xk7.pages
             }
             catch (Exception)
             {
-                SetError("An unknown error occurred. Try again");
+                SetError("An unknown error occurred. Try again.");
             }    
         }
         private void regButton_Click(object sender, RoutedEventArgs e)

@@ -140,5 +140,28 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
+
+        public async Task<AddLoggingResult> AddLog(string login, LoggingType loggingType)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            if (!await ExistsUserAsync(login))
+                return AddLoggingResult.NotExistsUser;
+
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                command.CommandText = $"INSERT INTO `Logging`(`IdLoggingType`, `Login`, `UTCDateTime`) VALUES(@LoggingType, @Login, UTC_TIMESTAMP());";
+                command.AddParameterWithValue("@LoggingType", loggingType);
+                command.AddParameterWithValue("@Login", login);
+
+                return await command.ExecuteNonQueryAsync() == 1 ? AddLoggingResult.Success : AddLoggingResult.Unknown;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
     }
 }

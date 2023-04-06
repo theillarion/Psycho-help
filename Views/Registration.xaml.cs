@@ -125,6 +125,7 @@ namespace Xk7.pages
                 {
                     case AddUserResult.Success:
                         MessageBox.Show("User successfully registered", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        await _dbService.AddLog(login, LoggingType.SuccessRegistration);
                         break;
                     case AddUserResult.UserExists:
                         SetError("The user with this login already exists.");
