@@ -21,9 +21,6 @@ using MySql.Data.MySqlClient;
 
 namespace Xk7.pages
 {
-    /// <summary>
-    /// Логика взаимодействия для registration.xaml
-    /// </summary>
     public partial class Registration : Page
     {
         private readonly IDbAsyncService _dbService;
@@ -66,7 +63,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("Login");
         }
-
         private void PassTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regPassTextBox = (TextBox)sender;
@@ -77,7 +73,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("Password");
         }
-
         private void NameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regNameTextBox = (TextBox)sender;
@@ -88,7 +83,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("Name");
         }
-
         private void SecondNameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regSecondNameTextBox = (TextBox)sender;
@@ -99,7 +93,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("SecondName");
         }
-
         private void datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             datePicker.SetCurrentValue(ForegroundProperty, Brushes.Black);
@@ -152,7 +145,6 @@ namespace Xk7.pages
         {
             RegistrationFrame.Navigate(new Auth());
         }
-
         // TODO: Fix
         private void RemoveEmptyFields(string CurrentField)
         {

@@ -23,9 +23,6 @@ using Xk7.Helper.Enums;
 
 namespace Xk7.pages
 {
-    /// <summary>
-    /// Логика взаимодействия для auth.xaml
-    /// </summary>
     public partial class Auth : Page
     {
         private readonly IDbAsyncService _dbService;

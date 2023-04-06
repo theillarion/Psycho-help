@@ -20,10 +20,8 @@ namespace Xk7.Services
             var result = JsonConvert.DeserializeObject<MySqlConnectionStringBuilder>(file);
             return result ?? new MySqlConnectionStringBuilder();
         }
-
         public static bool DbSettingsFileExists() =>
             File.Exists(AppEnvironment.GetRootWorkDirectory() + Path.DirectorySeparatorChar + FileSettings);
-
         public static void RemoveDbSettings() =>
             File.Delete(AppEnvironment.GetRootWorkDirectory() + Path.DirectorySeparatorChar + FileSettings);
     }

@@ -17,7 +17,6 @@ namespace Xk7.Services
     {
         private readonly DbConnection _connection;
         private const string NameTable = "User";
-
         public DbService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
@@ -32,7 +31,6 @@ namespace Xk7.Services
                 throw new ConnectionException("Connection refused");
             }
         }
-
         public bool ExistsUser(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -51,7 +49,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public bool IsBannedUser(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -71,7 +68,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public string GetHashPassword(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -142,7 +138,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public AddLoggingResult AddLog(string login, LoggingType loggingType)
         {
             if (_connection is not { State: ConnectionState.Open })
