@@ -110,7 +110,7 @@ namespace Xk7.Services
                 command.AddParameterWithValue("@Password", user.Password);
                 command.AddParameterWithValue("@FirstName", user.FirstName);
                 command.AddParameterWithValue("@SecondName", user.SecondName);
-                command.AddParameterWithValue("@DateBirthday", user.DateBirthday);
+                command.AddParameterWithValue("@DateBirthday", user.DateBirthday.ToString("yyyy-MM-dd"));
                 command.AddParameterWithValue("@IsBlocked", user.IsBanned);
 
                 return command.ExecuteNonQuery() == 1 ? AddUserResult.Success : AddUserResult.Unknown;
