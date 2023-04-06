@@ -8,8 +8,8 @@ namespace Xk7.Helper.Enums
 {
     public enum AddUserResult
     {
-        Unknown,
         Success,
         UserExists,
+        Unknown,
     }
 }
