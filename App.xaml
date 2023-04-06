@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Xk7"
              StartupUri="Views/Auth.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>
