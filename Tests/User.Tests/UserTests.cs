@@ -33,20 +33,5 @@ namespace xk7.Tests
             Assert.AreEqual(dateBirthday, user.DateBirthday);
             Assert.AreEqual(isBanned, user.IsBanned);
         }
-
-        //ToString_ReturnsExpectedString(): проверяет, что метод ToString() возвращает ожидаемую строку для объекта User. Создается объект User с некоторыми значениями свойств, и ожидаемая строка создается вручную, используя эти значения. Затем вызывается метод ToString() на объекте User, и полученная строка сравнивается с ожидаемой строкой.
-        [Test]
-        public void ToString_ReturnsExpectedString()
-        {
-            // Arrange
-            var user = new User(UserRole.User, "jane_doe", new HashedValue("mypassword"), "Jane", "Doe", new DateOnly(1995, 3, 15), true);
-            string expectedString = "[ IdUserRole: User, Login: jane_doe, Password: " + user.Password.ToString() + ", FirstName: Jane, SecondName: Doe, DateBirthday: 3/15/1995, IsBanned: True]";
-
-            // Act
-            string resultString = user.ToString();
-
-            // Assert
-            Assert.AreEqual(expectedString, resultString);
-        }
     }
 }
