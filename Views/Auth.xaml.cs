@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using Xk7.Services;
 using MySql.Data.MySqlClient;
 using Xk7.Helper.Enums;
+using Xk7.Views;
 
 namespace Xk7.pages
 {
@@ -94,7 +95,10 @@ namespace Xk7.pages
                     }
                     else
                     {
-                        MessageBox.Show(UICultureService.GetProperty("SuccessAuthentication"), "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        if (user.IdUserRole == (uint)UserRole.SuperAdmin)
+                            App.MainFrame.Navigate(await AdminPanel.CreateAsync());
+                        else
+                            MessageBox.Show("User has been successfully authorized", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
                         await _dbAsyncService.AddLog(login, LoggingType.SuccessAuthentication);
                     }
                 }
