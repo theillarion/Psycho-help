@@ -16,7 +16,6 @@ namespace Xk7.Services
     public class DbService : IDbService
     {
         private readonly DbConnection _connection;
-        private const string NameTable = "User";
         public DbService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
