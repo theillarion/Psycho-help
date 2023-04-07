@@ -15,7 +15,6 @@ namespace Xk7.Services
     internal class DbAsyncService : IDbAsyncService
     {
         private readonly DbConnection _connection;
-        private const string NameTable = "User";
         public DbAsyncService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
