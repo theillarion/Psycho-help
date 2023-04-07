@@ -37,7 +37,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Login` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Login` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 return await command.ExecuteScalarAsync() != null;
@@ -55,7 +55,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `IsBlocked` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `IsBlocked` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 var reader = await command.ExecuteScalarAsync();
@@ -74,7 +74,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Password` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Password` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 await using var reader = await command.ExecuteReaderAsync();
@@ -98,7 +98,7 @@ namespace Xk7.Services
             {
                 await using var command = _connection.CreateCommand();
                 command.CommandText =
-                    $"INSERT INTO `{NameTable}` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
+                    $"INSERT INTO `User` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
                 command.AddParameterWithValue("@IdUserRole", (int)user.IdUserRole);
                 command.AddParameterWithValue("@Login", user.Login);
                 command.AddParameterWithValue("@Password", user.Password);
@@ -121,7 +121,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT * FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
                 await using var reader = await command.ExecuteReaderAsync();
                 if (!reader.HasRows)

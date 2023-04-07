@@ -39,7 +39,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Login` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Login` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 return command.ExecuteScalar() != null;
@@ -57,7 +57,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `IsBlocked` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `IsBlocked` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 var reader = command.ExecuteScalar();
@@ -76,7 +76,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Password` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Password` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 using var reader = command.ExecuteReader();
@@ -100,7 +100,7 @@ namespace Xk7.Services
             {
                 using var command = _connection.CreateCommand();
                 command.CommandText =
-                    $"INSERT INTO `{NameTable}` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
+                    $"INSERT INTO `User` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
                 command.AddParameterWithValue("@IdUserRole", (int)user.IdUserRole);
                 command.AddParameterWithValue("@Login", user.Login);
                 command.AddParameterWithValue("@Password", user.Password);
@@ -123,7 +123,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT * FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
                 using var reader = command.ExecuteReader();
 
