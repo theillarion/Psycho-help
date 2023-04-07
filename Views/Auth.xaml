@@ -166,7 +166,6 @@
                 <GradientStop Color="#FF222332" Offset="0"/>
             </LinearGradientBrush>
         </Grid.Background>
-
         <Label Content="{x:Static p:Resource.LabelLogin}"  HorizontalAlignment="Center" Margin="0,265,0,0" VerticalAlignment="Top" Height="36" Width="240" Foreground="#FFB5B5B5" FontFamily="Lucida Console" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center"/>
         <Label Content="{x:Static p:Resource.LabelNameProject}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="497" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <TextBox x:Name="loginTextBox" Text="{x:Static p:Resource.TextInputLogin}" Style="{DynamicResource RoundedTextBoxStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="loginTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,315,0,0"/>
@@ -188,6 +187,5 @@
                 <SolidColorBrush Color="#FFF31414" Opacity="0.4"/>
             </TextBox.Background>
             </TextBox>
-        <Frame x:Name="authFrame"/>
     </Grid>
 </Page>
