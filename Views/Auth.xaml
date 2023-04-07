@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Xk7.pages"
       xmlns:viewModel="clr-namespace:Xk7.ViewModels"
+      xmlns:Xk7="clr-namespace:Xk7"
+      xmlns:p="clr-namespace:Xk7.Resources"
       mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="1248"
-      Title="auth">
+      Title="Auth">
     <Page.DataContext>
         <viewModel:LoginViewModel/>
     </Page.DataContext>
@@ -164,19 +166,18 @@
                 <GradientStop Color="#FF222332" Offset="0"/>
             </LinearGradientBrush>
         </Grid.Background>
-
-        <Label Content="Вход в систему" HorizontalAlignment="Center" Margin="0,265,0,0" VerticalAlignment="Top" Height="36" Width="240" Foreground="#FFB5B5B5" FontFamily="Lucida Console" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Label Content="XK7-Retail-Group" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="497" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox Style="{DynamicResource RoundedTextBoxStyle}" x:Name="loginTextBox" VerticalContentAlignment="Center" HorizontalAlignment="Center" Text="Введите логин..." VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="loginTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,315,0,0"/>
-        <TextBox Style="{DynamicResource RoundedTextBoxStyle}" x:Name="passTextBox" VerticalContentAlignment="Center" HorizontalAlignment="Center" Text="Введите пароль..." VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="passTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,357,0,0"/>
+        <Label Content="{x:Static p:Resource.LabelLogin}"  HorizontalAlignment="Center" Margin="0,265,0,0" VerticalAlignment="Top" Height="36" Width="240" Foreground="#FFB5B5B5" FontFamily="Lucida Console" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+        <Label Content="{x:Static p:Resource.LabelNameProject}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="497" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="loginTextBox" Text="{x:Static p:Resource.TextInputLogin}" Style="{DynamicResource RoundedTextBoxStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="loginTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,315,0,0"/>
+        <TextBox x:Name="passTextBox" Text="{x:Static p:Resource.TextInputPassword}" Style="{DynamicResource RoundedTextBoxStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="passTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,357,0,0"/>
 
         <StackPanel Orientation="Horizontal" Margin="0,394,0,0" VerticalAlignment="Top" HorizontalAlignment="Center">
 
-            <Button Style="{DynamicResource ButtonRounded}" x:Name="loginButton" Margin="0,0,5,0" Content="Вход" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="loginClick" FontFamily="Lucida Console" Background="#FF014258" Foreground="#FFFCFCFC"/>
-            <Button Style="{DynamicResource ButtonRounded}" x:Name="regButton" Margin="5,0,0,0" Content="Регистрация" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="regButton_Click" FontFamily="Lucida Console" Background="#FF014258" Foreground="#FFFCFCFC"/>
+            <Button x:Name="loginButton" Content="{x:Static p:Resource.ButtonLogin}" Style="{DynamicResource ButtonRounded}" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="loginClick" FontFamily="Lucida Console" Background="#FF014258" Foreground="#FFFCFCFC"/>
+            <Button x:Name="regButton" Content="{x:Static p:Resource.ButtonRegistration}" Style="{DynamicResource ButtonRounded}" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="regButton_Click" FontFamily="Lucida Console" Background="#FF014258" Foreground="#FFFCFCFC"/>
 
         </StackPanel>
-        <Button  Style="{DynamicResource ButtonRounded}" x:Name="employeeLoginButton" Content="Войти как сотрудник" HorizontalAlignment="Center" Height="53" Margin="0,457,0,0" VerticalAlignment="Top" Width="312" Click="employeeLoginButton_Click" Foreground="#FFEEFCF6" BorderBrush="#FF0A0B0F" Background="#FF014258" FontFamily="Lucida Console"/>
+        <Button x:Name="employeeLoginButton" Content="{x:Static p:Resource.ButtonLoginAsEmployee}" Style="{DynamicResource ButtonRounded}" HorizontalAlignment="Center" Height="53" Margin="0,457,0,0" VerticalAlignment="Top" Width="312" Click="employeeLoginButton_Click" Foreground="#FFEEFCF6" BorderBrush="#FF0A0B0F" Background="#FF014258" FontFamily="Lucida Console"/>
         <TextBox x:Name="AuthExceptionTextBox" IsReadOnly ="True"  Style="{DynamicResource RoundedTextBox}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" Margin="0,228,0,0" TextWrapping="Wrap" Text="Exception" VerticalAlignment="Top" Width="404" FontFamily="Lucida Console" FontWeight="Bold" Foreground="#FFB5B5B5">
             <TextBox.BorderBrush>
                 <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
@@ -186,6 +187,5 @@
                 <SolidColorBrush Color="#FFF31414" Opacity="0.4"/>
             </TextBox.Background>
             </TextBox>
-        <Frame x:Name="authFrame"/>
     </Grid>
 </Page>

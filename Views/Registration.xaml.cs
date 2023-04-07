@@ -21,40 +21,14 @@ using MySql.Data.MySqlClient;
 
 namespace Xk7.pages
 {
-    /// <summary>
-    /// Логика взаимодействия для registration.xaml
-    /// </summary>
     public partial class Registration : Page
     {
-        private readonly IDbAsyncService _dbService;
-        const string DefaultName = "Введите имя...";
-        const string DefaultSecondName = "Введите фамилию...";
-        const string DefaultLogin = "Введите логин...";
-        const string DefaultPassword = "Введите пароль...";
-        public Registration()
+        private readonly IDbAsyncService _dbAsyncService;
+        internal Registration(IDbAsyncService dbAsyncService)
         {
             InitializeComponent();
-            _dbService = ConfigureDefaultDbService();
+            _dbAsyncService = dbAsyncService;
             RegistrationExceptionTextBox.Visibility = Visibility.Hidden;
-        }
-        private DbAsyncService ConfigureDefaultDbService()
-        {
-            if (!DbSettingsService.DbSettingsFileExists())
-            {
-                MessageBox.Show("Not found file configuration", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            var settings = DbSettingsService.LoadDbSettings();
-            try
-            {
-                return new DbAsyncService(new MySqlConnection(settings.ConnectionString));
-            }
-            catch (ConnectionException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            return null;
         }
         private void LoginTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -66,7 +40,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("Login");
         }
-
         private void PassTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regPassTextBox = (TextBox)sender;
@@ -77,7 +50,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("Password");
         }
-
         private void NameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regNameTextBox = (TextBox)sender;
@@ -88,7 +60,6 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("Name");
         }
-
         private void SecondNameTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regSecondNameTextBox = (TextBox)sender;
@@ -99,15 +70,14 @@ namespace Xk7.pages
             }
             RemoveEmptyFields("SecondName");
         }
-
         private void datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             datePicker.SetCurrentValue(ForegroundProperty, Brushes.Black);
             RemoveEmptyFields("Date");
         }
-        private void SetError(string message)
+        private void SetError(string? message)
         {
-            RegistrationExceptionTextBox.Text = message;
+            RegistrationExceptionTextBox.Text = message ?? "Unknown error";
             RegistrationExceptionTextBox.Visibility = Visibility.Visible;
         }
         private async void regRegistrationClick(object sender, RoutedEventArgs e)
@@ -120,38 +90,38 @@ namespace Xk7.pages
             try
             {
                 var user = new User(UserRole.User, login, new HashedValue(password), name, secondName, birth, false);
-                var result = await _dbService.AddUserAsync(user);
+                var result = await _dbAsyncService.AddUserAsync(user);
                 switch (result)
                 {
                     case AddUserResult.Success:
-                        MessageBox.Show("User successfully registered", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(UICultureService.GetProperty("SuccessRegistration"), "Registration", MessageBoxButton.OK, MessageBoxImage.Information);
+                        await _dbAsyncService.AddLog(login, LoggingType.SuccessRegistration);
                         break;
                     case AddUserResult.UserExists:
-                        SetError("The user with this login already exists.");
+                        SetError(UICultureService.GetProperty("ErrorUserExists"));
                         break;
                     default:
-                        SetError("Common error.");
+                        SetError(UICultureService.GetProperty("UnknownError"));
                         break;
                 }
             }
             catch (ConnectionException ex)
             {
-                SetError(ex.Message);
+                SetError(UICultureService.GetProperty("ExceptionConnectionRefused"));
             }
-            catch (ExecuteException ex)
+            catch (ExecuteException)
             {
-                SetError("An error occurred during the operation. Try again.");
+                SetError(UICultureService.GetProperty("ExceptionExecute"));
             }
             catch (Exception)
             {
-                SetError("An unknown error occurred. Try again");
+                SetError(UICultureService.GetProperty("UnknownError"));
             }
         }
         private void regBackClick(object sender, RoutedEventArgs e)
         {
-            RegistrationFrame.Navigate(new Auth());
+            App.MainFrame.Navigate(new Auth(_dbAsyncService));
         }
-
         // TODO: Fix
         private void RemoveEmptyFields(string CurrentField)
         {
@@ -160,17 +130,17 @@ namespace Xk7.pages
                 case "Name":
                     if (SecondNameTextBox.Text.Trim() == string.Empty)
                     {
-                        SecondNameTextBox.Text = DefaultSecondName;
+                        SecondNameTextBox.Text = UICultureService.GetProperty("TextInputSecondName");
                         SecondNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (PassTextBox.Text.Trim() == string.Empty)
                     {
-                        PassTextBox.Text = DefaultPassword;
+                        PassTextBox.Text = UICultureService.GetProperty("TextInputPassword");
                         PassTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (LoginTextBox.Text.Trim() == string.Empty)
                     {
-                        LoginTextBox.Text = DefaultLogin;
+                        LoginTextBox.Text = UICultureService.GetProperty("TextInputLogin");
                         LoginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     break;
@@ -178,74 +148,74 @@ namespace Xk7.pages
                 case "SecondName":
                     if (NameTextBox.Text.Trim() == string.Empty)
                     {
-                        NameTextBox.Text = DefaultName;
+                        NameTextBox.Text = UICultureService.GetProperty("TextInputName");
                         NameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (PassTextBox.Text.Trim() == string.Empty)
                     {
-                        PassTextBox.Text = DefaultPassword;
+                        PassTextBox.Text = UICultureService.GetProperty("TextInputPassword");
                         PassTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (LoginTextBox.Text.Trim() == string.Empty)
                     {
-                        LoginTextBox.Text = DefaultLogin;
+                        LoginTextBox.Text = UICultureService.GetProperty("TextInputLogin");
                         LoginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     break;
                 case "Login":
                     if (NameTextBox.Text.Trim() == string.Empty)
                     {
-                        NameTextBox.Text = DefaultName;
+                        NameTextBox.Text = UICultureService.GetProperty("TextInputName");
                         NameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
 
                     if (SecondNameTextBox.Text.Trim() == string.Empty)
                     {
-                        SecondNameTextBox.Text = DefaultSecondName;
+                        SecondNameTextBox.Text = UICultureService.GetProperty("TextInputSecondName");
                         SecondNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (PassTextBox.Text.Trim() == string.Empty)
                     {
-                        PassTextBox.Text = DefaultPassword;
+                        PassTextBox.Text = UICultureService.GetProperty("TextInputPassword");
                         PassTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     break;
                 case "Password":
                     if (NameTextBox.Text.Trim() == string.Empty)
                     {
-                        NameTextBox.Text = DefaultName;
+                        NameTextBox.Text = UICultureService.GetProperty("TextInputName");
                         NameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (SecondNameTextBox.Text.Trim() == string.Empty)
                     {
-                        SecondNameTextBox.Text = DefaultSecondName;
+                        SecondNameTextBox.Text = UICultureService.GetProperty("TextInputSecondName");
                         SecondNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (LoginTextBox.Text.Trim() == string.Empty)
                     {
-                        LoginTextBox.Text = DefaultLogin;
+                        LoginTextBox.Text = UICultureService.GetProperty("TextInputLogin");
                         LoginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     break;
                 case "Date":
                     if (NameTextBox.Text.Trim() == string.Empty)
                     {
-                        NameTextBox.Text = DefaultName;
+                        NameTextBox.Text = UICultureService.GetProperty("TextInputName");
                         NameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (SecondNameTextBox.Text.Trim() == string.Empty)
                     {
-                        SecondNameTextBox.Text = DefaultSecondName;
+                        SecondNameTextBox.Text = UICultureService.GetProperty("TextInputSecondName");
                         SecondNameTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (LoginTextBox.Text.Trim() == string.Empty)
                     {
-                        LoginTextBox.Text = DefaultLogin;
+                        LoginTextBox.Text = UICultureService.GetProperty("TextInputLogin");
                         LoginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     if (PassTextBox.Text.Trim() == string.Empty)
                     {
-                        PassTextBox.Text = DefaultPassword;
+                        PassTextBox.Text = UICultureService.GetProperty("TextInputPassword");
                         PassTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
                     }
                     break;

@@ -19,50 +19,29 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xk7.Services;
 using MySql.Data.MySqlClient;
+using Xk7.Helper.Enums;
+using Xk7.Views;
 
 namespace Xk7.pages
 {
-    /// <summary>
-    /// Логика взаимодействия для auth.xaml
-    /// </summary>
     public partial class Auth : Page
     {
-        private readonly IDbAsyncService _dbService;
-        const string DefaultLogin = "Введите логин...";
-        const string DefaultPassword = "Введите пароль...";
-        private DbAsyncService ConfigureDefaultDbService()
-        {
-            if (!DbSettingsService.DbSettingsFileExists())
-            {
-                MessageBox.Show("Not found file configuration", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            var settings = DbSettingsService.LoadDbSettings();
-            try
-            {
-                return new DbAsyncService(new MySqlConnection(settings.ConnectionString));
-            }
-            catch (ConnectionException ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            return null;
-        }
-        public Auth()
+        private readonly IDbAsyncService _dbAsyncService;
+        private const string TitlePage = "Authentication";
+        internal Auth(IDbAsyncService dbAsyncService)
         {
             InitializeComponent();
-            _dbService = ConfigureDefaultDbService();
+            _dbAsyncService = dbAsyncService;
             AuthExceptionTextBox.Visibility = Visibility.Hidden;
         }
-        private void SetError(string message)
+        private void SetError(string? message)
         {
-            AuthExceptionTextBox.Text = message;
+            AuthExceptionTextBox.Text = message ?? "Unknown error";
             AuthExceptionTextBox.Visibility = Visibility.Visible;
         }
         private void loginTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (loginTextBox.Text.Equals(DefaultLogin))
+            if (loginTextBox.Text.Equals(UICultureService.GetProperty("TextInputLogin")))
             {
                 loginTextBox.Text = string.Empty;
                 loginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
@@ -70,13 +49,13 @@ namespace Xk7.pages
             // проверка, если при переходе в поле ввода логина, поле пароля так и не было заполнено
             if (passTextBox.Text.Trim() == string.Empty)
             {
-                passTextBox.Text = DefaultPassword;
+                passTextBox.Text = UICultureService.GetProperty("TextInputPassword");
                 passTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
             }
         }
         private void passTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (passTextBox.Text.Equals(DefaultPassword))
+            if (passTextBox.Text.Equals(UICultureService.GetProperty("TextInputPassword")))
             {
                 passTextBox.Text = string.Empty;
                 passTextBox.SetCurrentValue(ForegroundProperty, Brushes.Black);
@@ -84,51 +63,64 @@ namespace Xk7.pages
             // проверка, если при переходе в поле ввода пароля, поле логина так и не было заполнено
             if (loginTextBox.Text.Trim() == string.Empty)
             {
-                loginTextBox.Text = DefaultLogin;
+                loginTextBox.Text = UICultureService.GetProperty("TextInputLogin");
                 loginTextBox.SetCurrentValue(ForegroundProperty, Brushes.Gray);
             }
         }
         private async void loginClick(object sender, RoutedEventArgs e)
         {
-            string login = loginTextBox.Text.Trim();
-            string password = passTextBox.Text.Trim();
+            var login = loginTextBox.Text.Trim();
+            var password = passTextBox.Text.Trim();
             try
             {
-                var row = await _dbService.GetDataUserByLoginAsync(login);
+                var row = await _dbAsyncService.GetDataUserByLoginAsync(login);
                 if (row == null)
-                    SetError("The user does not exist.");
+                    SetError(UICultureService.GetProperty("ErrorUserNotExists"));
                 else
                 {
                     var user = UserFactory.FromDataRow<DbUser>(row);
-                    if (Converts.ConvertByteArrayToString(user.HashPassword)
-                        != Converts.ConvertStringToHeshString(password))
-                        SetError("The password is incorrect.");
+                    if (user == null)
+                        SetError(UICultureService.GetProperty("UnknownError"));
                     else if (user.IsBlocked)
-                        SetError("User is blocked.");
+                    {
+                        SetError(UICultureService.GetProperty("ErrorUserBlocked"));
+                        await _dbAsyncService.AddLog(login, LoggingType.FailedAuthenticationUserBanned);
+                    }
+                        
+                    else if (Converts.ConvertByteArrayToString(user.HashPassword)
+                             != Converts.ConvertStringToHeshString(password))
+                    {
+                        SetError(UICultureService.GetProperty("ErrorWrongPassword"));
+                        await _dbAsyncService.AddLog(login, LoggingType.FailedAuthenticationWrongPassword);
+                    }
                     else
                     {
-                        MessageBox.Show("User has been successfully authorized", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        if (user.IdUserRole == (uint)UserRole.SuperAdmin)
+                            App.MainFrame.Navigate(await AdminPanel.CreateAsync());
+                        else
+                            MessageBox.Show("User has been successfully authorized", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        await _dbAsyncService.AddLog(login, LoggingType.SuccessAuthentication);
                     }
                 }
             }
             catch (ConnectionException)
             {
-                SetError("Connection refused.");
+                SetError(UICultureService.GetProperty("ExceptionConnectionRefused"));
             }
             catch (Exception ex) when (ex is ExecuteException or FactoryException)
             {
-                SetError("An error occurred during the operation. Try again.");
+                SetError(UICultureService.GetProperty("ExceptionExecute"));
             }
             catch (Exception)
             {
-                SetError("An unknown error occurred. Try again");
+                SetError(UICultureService.GetProperty("UnknownError"));
             }    
         }
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
-            authFrame.Navigate(new Registration());
+            App.MainFrame.Navigate(new Registration(_dbAsyncService));
         }
-        private async void employeeLoginButton_Click(object sender, RoutedEventArgs e)
+        private void employeeLoginButton_Click(object sender, RoutedEventArgs e)
         {
             loginClick(sender, e);
         }

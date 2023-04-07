@@ -15,8 +15,6 @@ namespace Xk7.Services
     internal class DbAsyncService : IDbAsyncService
     {
         private readonly DbConnection _connection;
-        private const string NameTable = "User";
-
         public DbAsyncService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
@@ -31,7 +29,6 @@ namespace Xk7.Services
                 throw new ConnectionException("Connection refused");
             }
         }
-
         public async Task<bool> ExistsUserAsync(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -40,7 +37,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Login` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Login` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 return await command.ExecuteScalarAsync() != null;
@@ -50,7 +47,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public async Task<bool> IsBannedUserAsync(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -59,7 +55,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `IsBlocked` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `IsBlocked` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 var reader = await command.ExecuteScalarAsync();
@@ -70,7 +66,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public async Task<string> GetHashPasswordAsync(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -79,7 +74,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Password` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Password` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 await using var reader = await command.ExecuteReaderAsync();
@@ -103,13 +98,13 @@ namespace Xk7.Services
             {
                 await using var command = _connection.CreateCommand();
                 command.CommandText =
-                    $"INSERT INTO `{NameTable}` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
+                    $"INSERT INTO `User` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
                 command.AddParameterWithValue("@IdUserRole", (int)user.IdUserRole);
                 command.AddParameterWithValue("@Login", user.Login);
                 command.AddParameterWithValue("@Password", user.Password);
                 command.AddParameterWithValue("@FirstName", user.FirstName);
                 command.AddParameterWithValue("@SecondName", user.SecondName);
-                command.AddParameterWithValue("@DateBirthday", user.DateBirthday);
+                command.AddParameterWithValue("@DateBirthday", user.DateBirthday.ToString("yyyy-MM-dd"));
                 command.AddParameterWithValue("@IsBlocked", user.IsBanned);
 
                 return await command.ExecuteNonQueryAsync() == 1 ? AddUserResult.Success : AddUserResult.Unknown;
@@ -126,7 +121,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT * FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
                 await using var reader = await command.ExecuteReaderAsync();
                 if (!reader.HasRows)
@@ -134,6 +129,50 @@ namespace Xk7.Services
                 using var table = new DataTable();
                 table.Load(reader);
                 return table.Rows[0];
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public async Task<AddLoggingResult> AddLog(string login, LoggingType loggingType)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            if (!await ExistsUserAsync(login))
+                return AddLoggingResult.NotExistsUser;
+
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                command.CommandText = $"INSERT INTO `Logging`(`IdLoggingType`, `Login`, `UTCDateTime`) VALUES(@LoggingType, @Login, UTC_TIMESTAMP());";
+                command.AddParameterWithValue("@LoggingType", loggingType);
+                command.AddParameterWithValue("@Login", login);
+
+                return await command.ExecuteNonQueryAsync() == 1 ? AddLoggingResult.Success : AddLoggingResult.Unknown;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+
+        public async Task<DataTable?> GetTable(string nameTable)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                command.CommandText = $"SELECT * FROM `{nameTable}`";
+                await using var reader = await command.ExecuteReaderAsync();
+                if (!reader.HasRows)
+                    return null;
+                using var result = new DataTable();
+                result.Load(reader);
+                return result;
             }
             catch (Exception ex)
             {

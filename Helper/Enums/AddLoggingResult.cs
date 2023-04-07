@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Xk7.Helper.Enums
 {
-    public enum AddUserResult
+    public enum AddLoggingResult
     {
         Success,
-        UserExists,
+        NotExistsUser,
         Unknown,
     }
 }
