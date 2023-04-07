@@ -23,11 +23,11 @@ namespace Xk7.pages
 {
     public partial class Registration : Page
     {
-        private readonly IDbAsyncService _dbService;
-        public Registration()
+        private readonly IDbAsyncService _dbAsyncService;
+        internal Registration(IDbAsyncService dbAsyncService)
         {
             InitializeComponent();
-            _dbService = ConfigureDefaultDbService();
+            _dbAsyncService = dbAsyncService;
             RegistrationExceptionTextBox.Visibility = Visibility.Hidden;
         }
         private DbAsyncService ConfigureDefaultDbService()
@@ -109,12 +109,12 @@ namespace Xk7.pages
             try
             {
                 var user = new User(UserRole.User, login, new HashedValue(password), name, secondName, birth, false);
-                var result = await _dbService.AddUserAsync(user);
+                var result = await _dbAsyncService.AddUserAsync(user);
                 switch (result)
                 {
                     case AddUserResult.Success:
                         MessageBox.Show(UICultureService.GetProperty("SuccessRegistration"), "Registration", MessageBoxButton.OK, MessageBoxImage.Information);
-                        await _dbService.AddLog(login, LoggingType.SuccessRegistration);
+                        await _dbAsyncService.AddLog(login, LoggingType.SuccessRegistration);
                         break;
                     case AddUserResult.UserExists:
                         SetError(UICultureService.GetProperty("ErrorUserExists"));

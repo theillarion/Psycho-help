@@ -25,30 +25,12 @@ namespace Xk7.pages
 {
     public partial class Auth : Page
     {
-        private readonly IDbAsyncService _dbService;
-        private DbAsyncService ConfigureDefaultDbService()
-        {
-            if (!DbSettingsService.DbSettingsFileExists())
-            {
-                MessageBox.Show(UICultureService.GetProperty("ErrorNotFoundConfig"), "Authentication", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            var settings = DbSettingsService.LoadDbSettings();
-            try
-            {
-                return new DbAsyncService(new MySqlConnection(settings.ConnectionString));
-            }
-            catch (ConnectionException ex)
-            {
-                MessageBox.Show(UICultureService.GetProperty("ExceptionConnectionRefused"), "Authentication", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            return null;
-        }
-        public Auth()
+        private readonly IDbAsyncService _dbAsyncService;
+        private const string TitlePage = "Authentication";
+        internal Auth(IDbAsyncService dbAsyncService)
         {
             InitializeComponent();
-            _dbService = ConfigureDefaultDbService();
+            _dbAsyncService = dbAsyncService;
             AuthExceptionTextBox.Visibility = Visibility.Hidden;
         }
         private void SetError(string? message)
@@ -90,7 +72,7 @@ namespace Xk7.pages
             var password = passTextBox.Text.Trim();
             try
             {
-                var row = await _dbService.GetDataUserByLoginAsync(login);
+                var row = await _dbAsyncService.GetDataUserByLoginAsync(login);
                 if (row == null)
                     SetError(UICultureService.GetProperty("ErrorUserNotExists"));
                 else
@@ -101,14 +83,14 @@ namespace Xk7.pages
                     else if (user.IsBlocked)
                     {
                         SetError(UICultureService.GetProperty("ErrorUserBlocked"));
-                        await _dbService.AddLog(login, LoggingType.FailedAuthenticationUserBanned);
+                        await _dbAsyncService.AddLog(login, LoggingType.FailedAuthenticationUserBanned);
                     }
                         
                     else if (Converts.ConvertByteArrayToString(user.HashPassword)
                              != Converts.ConvertStringToHeshString(password))
                     {
                         SetError(UICultureService.GetProperty("ErrorWrongPassword"));
-                        await _dbService.AddLog(login, LoggingType.FailedAuthenticationWrongPassword);
+                        await _dbAsyncService.AddLog(login, LoggingType.FailedAuthenticationWrongPassword);
                     }
                     else
                     {
