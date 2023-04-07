@@ -139,7 +139,7 @@ namespace Xk7.pages
         }
         private void regBackClick(object sender, RoutedEventArgs e)
         {
-            RegistrationFrame.Navigate(new Auth(_dbAsyncService));
+            App.MainFrame.Navigate(new Auth(_dbAsyncService));
         }
         // TODO: Fix
         private void RemoveEmptyFields(string CurrentField)

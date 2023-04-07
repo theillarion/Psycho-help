@@ -114,7 +114,7 @@ namespace Xk7.pages
         }
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
-            authFrame.Navigate(new Registration(_dbAsyncService));
+            App.MainFrame.Navigate(new Registration(_dbAsyncService));
         }
         private void employeeLoginButton_Click(object sender, RoutedEventArgs e)
         {
