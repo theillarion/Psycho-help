@@ -30,25 +30,6 @@ namespace Xk7.pages
             _dbAsyncService = dbAsyncService;
             RegistrationExceptionTextBox.Visibility = Visibility.Hidden;
         }
-        private DbAsyncService ConfigureDefaultDbService()
-        {
-            if (!DbSettingsService.DbSettingsFileExists())
-            {
-                MessageBox.Show(UICultureService.GetProperty("ErrorNotFoundConfig"), "Registration", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            var settings = DbSettingsService.LoadDbSettings();
-            try
-            {
-                return new DbAsyncService(new MySqlConnection(settings.ConnectionString));
-            }
-            catch (ConnectionException ex)
-            {
-                MessageBox.Show(UICultureService.GetProperty("ExceptionConnectionRefused"), "Registration", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
-            }
-            return null;
-        }
         private void LoginTextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox regLoginTextBox = (TextBox) sender;
