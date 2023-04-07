@@ -159,5 +159,26 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
+        public DataTable? GetTable(string nameTable)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            try
+            {
+                using var command = _connection.CreateCommand();
+                command.CommandText = $"SELECT * FROM `{nameTable}`";
+                using var reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                    return null;
+                using var result = new DataTable();
+                result.Load(reader);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
     }
 }
