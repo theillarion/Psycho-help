@@ -95,7 +95,7 @@ namespace Xk7.pages
                     else
                     {
                         MessageBox.Show(UICultureService.GetProperty("SuccessAuthentication"), "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
-                        await _dbService.AddLog(login, LoggingType.SuccessAuthentication);
+                        await _dbAsyncService.AddLog(login, LoggingType.SuccessAuthentication);
                     }
                 }
             }
@@ -114,7 +114,7 @@ namespace Xk7.pages
         }
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
-            authFrame.Navigate(new Registration());
+            authFrame.Navigate(new Registration(_dbAsyncService));
         }
         private void employeeLoginButton_Click(object sender, RoutedEventArgs e)
         {
