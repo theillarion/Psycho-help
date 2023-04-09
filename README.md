@@ -35,3 +35,7 @@
 ![image](https://user-images.githubusercontent.com/95585343/230797578-08c4a95e-a2ef-4a11-aaca-0682a0ce366f.png)
 
 После проведения первого представления проекта заказчику было решено изменит цветовую палитру. Ниже представлен новый набор окон:
+
+![image](https://user-images.githubusercontent.com/95585343/230799420-736e2e80-4405-4a26-bac5-815d467616d5.png)
+![image](https://user-images.githubusercontent.com/95585343/230799429-f3619826-770d-40b9-b9aa-f874f6d41916.png)
+![image](https://user-images.githubusercontent.com/95585343/230799442-f92eb049-4782-4c4f-9f72-73e85e438f5c.png)
