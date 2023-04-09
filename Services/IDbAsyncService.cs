@@ -16,5 +16,6 @@ namespace Xk7.Services
         Task<string> GetHashPasswordAsync(string login);
         Task<AddUserResult> AddUserAsync(User user);
         Task<DataRow?> GetDataUserByLoginAsync(string login);
+        Task<DataTable?> GetTable(string nameTable);
     }
 }

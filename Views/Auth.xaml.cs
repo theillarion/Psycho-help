@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xk7.Services;
 using MySql.Data.MySqlClient;
+using Xk7.Views;
 
 namespace Xk7.pages
 {
@@ -28,8 +29,15 @@ namespace Xk7.pages
     public partial class Auth : Page
     {
         private readonly IDbAsyncService _dbService;
+        private readonly IDbAsyncService _dbAsyncService;
         const string DefaultLogin = "Введите логин...";
         const string DefaultPassword = "Введите пароль...";
+        internal Auth(IDbAsyncService dbAsyncService)
+        {
+            InitializeComponent();
+            _dbAsyncService = dbAsyncService;
+            AuthExceptionTextBox.Visibility = Visibility.Hidden;
+        }
         private DbAsyncService ConfigureDefaultDbService()
         {
             if (!DbSettingsService.DbSettingsFileExists())
@@ -96,7 +104,10 @@ namespace Xk7.pages
             {
                 var row = await _dbService.GetDataUserByLoginAsync(login);
                 if (row == null)
+                {
                     SetError("The user does not exist.");
+                    return;
+                }
                 else
                 {
                     var user = UserFactory.FromDataRow<DbUser>(row);
@@ -107,7 +118,7 @@ namespace Xk7.pages
                         SetError("User is blocked.");
                     else
                     {
-                        MessageBox.Show("User has been successfully authorized", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);
+                        authFrame.Navigate(new AdminPanel());
                     }
                 }
             }
