@@ -9,7 +9,7 @@
       d:DesignHeight="702" d:DesignWidth="1248"
       Title="registration">
     <Page.Resources>
-        <ObjectDataProvider x:Key="Strings" ObjectType="{x:Type Xk7:ProjectInfo}" />
+        <ObjectDataProvider x:Key="Strings"/>
         <SolidColorBrush x:Key="Button.Static.Background" Color="Transparent"/>
         <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
         <SolidColorBrush x:Key="Button.MouseOver.Background" Color="Green"/>
@@ -130,7 +130,7 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <Label Content="{x:Static Xk7:ProjectInfo.ProjectName}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="430" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="PSYCHO-HELP" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="430" Foreground="#FFB5B5B5" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="Регистрация" HorizontalAlignment="Center" VerticalAlignment="Top" Height="36" Width="244" Foreground="#FFB5B5B5" FontFamily="Lucida Console" FontSize="22" HorizontalContentAlignment="Center" Margin="0,266,0,0" FontWeight="Bold"/>
         <TextBox Template="{DynamicResource RoundedTextBox}" x:Name="NameTextBox" HorizontalAlignment="Center" VerticalContentAlignment="Center" Text="Введите имя..." VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="NameTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,329,0,0"/>
         <TextBox Template="{DynamicResource RoundedTextBox}" x:Name="PassTextBox" HorizontalAlignment="Center" VerticalContentAlignment="Center" Text="Введите пароль..." VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="PassTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,428,0,0"/>
@@ -141,7 +141,6 @@
 
             <Button Style="{DynamicResource ButtonRounded}" x:Name="loginButton" Margin="0,0,5,0" Content="Вернуться" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="regBackClick" FontFamily="Lucida Console" Background="#FF014258" Foreground="#FFFCFCFC"/>
             <Button Style="{DynamicResource ButtonRounded}" x:Name="regButton" Margin="5,0,0,0" Content="Зарегистрироваться" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="regRegistrationClick" FontFamily="Lucida Console" Background="#FF014258" Foreground="#FFFCFCFC"/>
-
         </StackPanel>
         <TextBox x:Name="RegistrationExceptionTextBox" IsReadOnly="False" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" Margin="0,228,0,0" TextWrapping="Wrap" Text="Exception" VerticalAlignment="Top" Width="404" FontFamily="Lucida Console" FontWeight="Bold" Foreground="#FFB5B5B5" Template="{DynamicResource RoundedTextBox}">
             <TextBox.BorderBrush>
