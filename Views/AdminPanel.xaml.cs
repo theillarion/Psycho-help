@@ -26,7 +26,7 @@ namespace Xk7.Views
     /// Логика взаимодействия для AdminPanel.xaml
     /// </summary>
     /// 
-
+    
     public partial class AdminPanel : Page
     {
         private readonly IDbAsyncService _dbService;

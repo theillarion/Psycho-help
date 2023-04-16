@@ -9,90 +9,90 @@
       d:DesignHeight="702" d:DesignWidth="1248"
       Title="AdminPanel">
     <Border CornerRadius="30">
-        <Grid>
-            <Grid.Background >
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FF222332" Offset="0"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!--Left menu-->
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                <Grid.Background >
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#FF222332" Offset="0"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
 
-                <!--Button menu-->
-                <Button Style="{StaticResource topButton}" Margin="20 28 0 35">
-                    <Icon:PackIconMaterial Kind="Menu" Width="15" Height="15"/>
-                </Button>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Border Grid.Row="1" Background="black" CornerRadius="0 50 50 50">
-                    <DockPanel>
-                        <!--Menu titles-->
-                        <TextBlock Text="Xk7" Foreground="white" FontSize="50" FontWeight="Bold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
+                <!--Left menu-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        </TextBlock>
-                        <TextBlock Text="Admin" Foreground="white" FontSize="23" FontWeight="SemiBold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
+                    <!--Button menu-->
+                    <Button Style="{StaticResource topButton}" Margin="20 28 0 35">
+                        <Icon:PackIconMaterial Kind="Menu" Width="15" Height="15"/>
+                    </Button>
 
-                        </TextBlock>
+                    <Border Grid.Row="1" Background="black" CornerRadius="0 50 50 50">
+                        <DockPanel>
+                            <!--Menu titles-->
+                            <TextBlock Text="Xk7" Foreground="white" FontSize="50" FontWeight="Bold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
 
-                        <!--Menu separator-->
-                        <Separator Margin="25" DockPanel.Dock="Top" Height="1" Background="Black"></Separator>
+                            </TextBlock>
+                            <TextBlock Text="Admin" Foreground="white" FontSize="23" FontWeight="SemiBold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
 
-                        <!--Menu Buttons-->
-                        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="35 0 0 0">
-                            <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom">
-                                <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
-                                    <TextBlock Text="Exit"></TextBlock>
-                                </StackPanel>
-                            </Button>
+                            </TextBlock>
+
+                            <!--Menu separator-->
+                            <Separator Margin="25" DockPanel.Dock="Top" Height="1" Background="Black"></Separator>
+
+                            <!--Menu Buttons-->
+                            <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="35 0 0 0">
+                                <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
+                                        <TextBlock Text="Exit"></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                        </DockPanel>
+                    </Border>
+
+                </Grid>
+
+                <!--Main section-->
+                <Grid Grid.Column="1" Margin="30 20 20 20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!--Top buttons-->
+                    <Button Style="{StaticResource topButton}" HorizontalAlignment="Right">
+                        <Icon:PackIconMaterial Kind="Earth"/>
+                    </Button>
+
+                    <!--Page Title-->
+                    <TextBlock Text="Users" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="White" HorizontalAlignment="Left"/>
+
+                    <!--Add Button-->
+                    <Button Style="{StaticResource addButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="Plus" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
+                            <TextBlock Text="Add new user"/>
                         </StackPanel>
+                    </Button>
 
-                    </DockPanel>
-                </Border>
+                    <!--Seprator-->
+                    <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 10"/>
 
+                    <!--DataTable-->
+                    <DataGrid x:Name="dbTable" Grid.Row="2" ItemsSource ="{Binding}" ></DataGrid>
+                </Grid>
             </Grid>
-
-            <!--Main section-->
-            <Grid Grid.Column="1" Margin="30 20 20 20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-
-
-                <!--Top buttons-->
-                <Button Style="{StaticResource topButton}" HorizontalAlignment="Right">
-                    <Icon:PackIconMaterial Kind="Earth"/>
-                </Button>
-
-                <!--Page Title-->
-                <TextBlock Text="Users" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="White" HorizontalAlignment="Left"/>
-
-                <!--Add Button-->
-                <Button Style="{StaticResource addButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <Icon:PackIconMaterial Kind="Plus" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
-                        <TextBlock Text="Add new user"/>
-                    </StackPanel>
-                </Button>
-
-                <!--Seprator-->
-                <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 10"/>
-
-                <!--DataTable-->
-                <DataGrid x:Name="dbTable" Grid.Row="2" ItemsSource ="{Binding}" ></DataGrid>
-            </Grid>
-        </Grid>
     </Border>
 </Page>

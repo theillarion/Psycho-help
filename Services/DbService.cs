@@ -16,8 +16,6 @@ namespace Xk7.Services
     public class DbService : IDbService
     {
         private readonly DbConnection _connection;
-        private const string NameTable = "User";
-
         public DbService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
@@ -32,7 +30,6 @@ namespace Xk7.Services
                 throw new ConnectionException("Connection refused");
             }
         }
-
         public bool ExistsUser(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -41,7 +38,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Login` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Login` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 return command.ExecuteScalar() != null;
@@ -51,7 +48,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public bool IsBannedUser(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -60,7 +56,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `IsBlocked` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `IsBlocked` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 var reader = command.ExecuteScalar();
@@ -71,7 +67,6 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public string GetHashPassword(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -80,7 +75,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT `Password` FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT `Password` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
                 using var reader = command.ExecuteReader();
@@ -104,13 +99,13 @@ namespace Xk7.Services
             {
                 using var command = _connection.CreateCommand();
                 command.CommandText =
-                    $"INSERT INTO `{NameTable}` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
+                    $"INSERT INTO `User` VALUES(@IdUserRole, @Login, @Password, @FirstName, @SecondName, @DateBirthday, @IsBlocked)";
                 command.AddParameterWithValue("@IdUserRole", (int)user.IdUserRole);
                 command.AddParameterWithValue("@Login", user.Login);
                 command.AddParameterWithValue("@Password", user.Password);
                 command.AddParameterWithValue("@FirstName", user.FirstName);
                 command.AddParameterWithValue("@SecondName", user.SecondName);
-                command.AddParameterWithValue("@DateBirthday", user.DateBirthday);
+                command.AddParameterWithValue("@DateBirthday", user.DateBirthday.ToString("yyyy-MM-dd"));
                 command.AddParameterWithValue("@IsBlocked", user.IsBanned);
 
                 return command.ExecuteNonQuery() == 1 ? AddUserResult.Success : AddUserResult.Unknown;
@@ -127,7 +122,7 @@ namespace Xk7.Services
             try
             {
                 using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM `{NameTable}` WHERE `Login` = @Login";
+                command.CommandText = $"SELECT * FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
                 using var reader = command.ExecuteReader();
 
@@ -136,6 +131,49 @@ namespace Xk7.Services
                 using var table = new DataTable();
                 table.Load(reader);
                 return table.Rows[0];
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public AddLoggingResult AddLog(string login, LoggingType loggingType)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            if (!ExistsUser(login))
+                return AddLoggingResult.NotExistsUser;
+
+            try
+            {
+                using var command = _connection.CreateCommand();
+                command.CommandText = $"INSERT INTO `Logging`(`IdLoggingType`, `Login`, `UTCDateTime`) VALUES(@LoggingType, @Login, UTC_TIMESTAMP());";
+                command.AddParameterWithValue("@LoggingType", loggingType);
+                command.AddParameterWithValue("@Login", login);
+
+                return command.ExecuteNonQuery() == 1 ? AddLoggingResult.Success : AddLoggingResult.Unknown;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public DataTable? GetTable(string nameTable)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            try
+            {
+                using var command = _connection.CreateCommand();
+                command.CommandText = $"SELECT * FROM `{nameTable}`";
+                using var reader = command.ExecuteReader();
+                if (!reader.HasRows)
+                    return null;
+                using var result = new DataTable();
+                result.Load(reader);
+                return result;
             }
             catch (Exception ex)
             {

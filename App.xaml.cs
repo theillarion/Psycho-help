@@ -29,7 +29,7 @@ namespace Xk7
             MainFrame.Width = 1248;
             MainFrame.Height = 702;
             //
-            //UICultureService.SetCulture(new CultureInfo("en"));
+            UICultureService.SetCulture(new CultureInfo("en"));
             var dbService = ConfigureDefaultDbService(FatalError);
             if (dbService != null)
                 MainFrame.Navigate(new Auth(dbService));
@@ -45,8 +45,7 @@ namespace Xk7
         internal static DbAsyncService? ConfigureDefaultDbService(Error error)
         {
             if (!DbSettingsService.DbSettingsFileExists())
-                return null;
-                //error.Invoke(UICultureService.GetProperty("ErrorNotFoundConfig"));
+                error.Invoke(UICultureService.GetProperty("ErrorNotFoundConfig"));
 
             var settings = DbSettingsService.LoadDbSettings();
             try
@@ -55,7 +54,7 @@ namespace Xk7
             }
             catch (ConnectionException)
             {
-                //error.Invoke(UICultureService.GetProperty("ExceptionConnectionRefused"));
+                error.Invoke(UICultureService.GetProperty("ExceptionConnectionRefused"));
             }
             return null;
         }

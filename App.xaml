@@ -4,9 +4,6 @@
              xmlns:local="clr-namespace:Xk7"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
     <Application.Resources>
-        
-        
-        
         <Style x:Key="topButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Foreground" Value="AliceBlue"></Setter>
