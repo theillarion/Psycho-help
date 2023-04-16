@@ -12,13 +12,13 @@
             <Grid>
                 <Grid.Background >
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1"/>
-                        <GradientStop Color="#FF222332" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="White" Offset="0"/>
                     </LinearGradientBrush>
                 </Grid.Background>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="170"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -34,33 +34,30 @@
                         <Icon:PackIconMaterial Kind="Menu" Width="15" Height="15"/>
                     </Button>
 
-                    <Border Grid.Row="1" Background="black" CornerRadius="0 50 50 50">
-                        <DockPanel>
-                            <!--Menu titles-->
-                            <TextBlock Text="Xk7" Foreground="white" FontSize="50" FontWeight="Bold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
+                <Border Grid.Row="1" Background="SkyBlue" CornerRadius="0 50 0 0">
+                    <DockPanel>
+                        <!--Menu titles-->
+                        <Icon:PackIconMaterial Kind="AccessPoint" Foreground="Black" Height="80" Width="80" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="5 40 0 10"/>
+                        <TextBlock Text="Admin" Foreground="Black" FontSize="23" FontWeight="SemiBold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
 
-                            </TextBlock>
-                            <TextBlock Text="Admin" Foreground="white" FontSize="23" FontWeight="SemiBold" FontFamily="Lucida" DockPanel.Dock="Top" TextAlignment="Center" Margin="5 25 0 10">
+                        </TextBlock>
 
-                            </TextBlock>
+                        <!--Menu separator-->
+                        <Separator Margin="25" DockPanel.Dock="Top" Height="1" Background="Black"></Separator>
 
-                            <!--Menu separator-->
-                            <Separator Margin="25" DockPanel.Dock="Top" Height="1" Background="Black"></Separator>
+                        <!--Menu Buttons-->
+                        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="35 0 0 0">
+                            <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
+                                    <TextBlock Text="Exit" Foreground="Black"></TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
 
-                            <!--Menu Buttons-->
-                            <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="35 0 0 0">
-                                <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
-                                        <TextBlock Text="Exit"></TextBlock>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-
-                        </DockPanel>
-                    </Border>
-
-                </Grid>
+                    </DockPanel>
+                </Border>
+            </Grid>
 
                 <!--Main section-->
                 <Grid Grid.Column="1" Margin="30 20 20 20">
@@ -72,7 +69,7 @@
 
 
                     <!--Top buttons-->
-                    <Button Style="{StaticResource topButton}" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource topButton}" HorizontalAlignment="Right" Foreground="Black">
                         <Icon:PackIconMaterial Kind="Earth"/>
                     </Button>
 
@@ -82,17 +79,39 @@
                     <!--Add Button-->
                     <Button Style="{StaticResource addButton}">
                         <StackPanel Orientation="Horizontal">
-                            <Icon:PackIconMaterial Kind="Plus" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
-                            <TextBlock Text="Add new user"/>
+                            <Icon:PackIconMaterial Kind="Plus" Foreground="Black" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
+                            <TextBlock Foreground="Black" Text="Add new user"/>
                         </StackPanel>
                     </Button>
 
                     <!--Seprator-->
-                    <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 10"/>
+                    <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
 
-                    <!--DataTable-->
-                    <DataGrid x:Name="dbTable" Grid.Row="2" ItemsSource ="{Binding}" ></DataGrid>
-                </Grid>
+                <!--Data Grid-->
+                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbTable" Style="{DynamicResource DataGridStyle1}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="User Role" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdUserRole}"/>
+                        <DataGridTextColumn Header="Login" Binding="{Binding Login}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="SecondName" Binding="{Binding SecondName}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Date birthday" Binding="{Binding DateBirthday}" IsReadOnly="True" Width="*"/>
+                        <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource gridEditButton}">
+                                            <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                        <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
             </Grid>
     </Border>
 </Page>

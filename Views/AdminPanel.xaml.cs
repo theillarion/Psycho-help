@@ -3,6 +3,8 @@ using MySqlX.XDevAPI.Relational;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +18,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xk7.Helper.Exceptions;
+using Xk7.Model;
 using Xk7.pages;
 using Xk7.Services;
 using Xk7.Views;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Xk7.Views
 {
@@ -42,9 +46,27 @@ namespace Xk7.Views
         }
         public static async Task<AdminPanel> CreateAsync()
         {
-            var result = new AdminPanel();
-            result.dbTable.DataContext = await result._dbService.GetTable("User");
-            return result;
-        }
+            var Result = new AdminPanel();
+            var Table = await Result._dbService.GetTable("User");
+            var test = new ObservableCollection<DbUser>();
+            foreach (DataRow row in Table.Rows)
+            {
+                var obj = new DbUser()
+                {
+                    IdUserRole = (uint)row.ItemArray[0],
+                    Login = (string)row.ItemArray[1],
+                    HashPassword = (byte[])row.ItemArray[2],
+                    FirstName = (string)row.ItemArray[3],
+                    SecondName = (string)row.ItemArray[4],
+                    DateBirthday = (DateTime)row.ItemArray[5],
+                    IsBlocked = (bool)row.ItemArray[6]
+                };
+                test.Add(obj);
+            }
+            Result.dbTable.ItemsSource = test;
+
+            return Result;
+
+        } 
     }
 }
