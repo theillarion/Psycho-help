@@ -178,7 +178,7 @@ namespace Xk7.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Xk7-Retail-Group.
+        ///   Ищет локализованную строку, похожую на Psycho-help.
         /// </summary>
         public static string LabelNameProject {
             get {
