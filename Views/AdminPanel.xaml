@@ -46,8 +46,8 @@
                         <Separator Margin="25" DockPanel.Dock="Top" Height="1" Background="Black"></Separator>
 
                         <!--Menu Buttons-->
-                        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="35 0 0 0">
-                            <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center">
+                        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25 0 0 0">
+                            <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="ExitClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
                                     <TextBlock Text="Exit" Foreground="Black"></TextBlock>
@@ -60,32 +60,32 @@
             </Grid>
 
                 <!--Main section-->
-                <Grid Grid.Column="1" Margin="30 20 20 20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Margin="30 20 20 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
 
-                    <!--Top buttons-->
-                    <Button Style="{StaticResource topButton}" HorizontalAlignment="Right" Foreground="Black">
-                        <Icon:PackIconMaterial Kind="Earth"/>
-                    </Button>
+                <!--Top buttons-->
+                <Button Style="{StaticResource topButton}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black" Click ="ChangeLanguageClick" >
+                    <Icon:PackIconMaterial Kind="Earth" Height="35" Width="30"/>
+                </Button>
 
-                    <!--Page Title-->
-                    <TextBlock Text="Users" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="White" HorizontalAlignment="Left"/>
+                <!--Page Title-->
+                <TextBlock Text="Users" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="White" HorizontalAlignment="Left"/>
 
-                    <!--Add Button-->
-                    <Button Style="{StaticResource addButton}">
-                        <StackPanel Orientation="Horizontal">
-                            <Icon:PackIconMaterial Kind="Plus" Foreground="Black" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
-                            <TextBlock Foreground="Black" Text="Add new user"/>
-                        </StackPanel>
-                    </Button>
+                <!--Add Button-->
+                <Button Style="{StaticResource addButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <Icon:PackIconMaterial Kind="Plus" Foreground="Black" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
+                        <TextBlock Foreground="Black" Text="Add new user"/>
+                    </StackPanel>
+                </Button>
 
-                    <!--Seprator-->
-                    <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
+                <!--Seprator-->
+                <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
 
                 <!--Data Grid-->
                 <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbTable" Style="{DynamicResource DataGridStyle1}">
@@ -112,6 +112,8 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            </Grid>
+        </Grid>
+        
     </Border>
+    
 </Page>

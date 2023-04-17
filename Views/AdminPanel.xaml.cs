@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,6 +68,20 @@ namespace Xk7.Views
 
             return Result;
 
-        } 
+        }
+
+        private void ChangeLanguageClick(object sender, RoutedEventArgs e)
+        {
+            UICultureService.SetCulture(new CultureInfo("ru"));
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            App.MainFrame.Navigate(new Auth(_dbService));
+        }
+
+ 
+
+
     }
 }

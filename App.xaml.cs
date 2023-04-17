@@ -20,6 +20,7 @@ namespace Xk7
     {
         internal readonly IDbAsyncService _dbAsyncService;
         internal static readonly NavigationWindow MainFrame = new();
+        internal static readonly DbAsyncService? dbService;
         //internal static System.Windows.Controls.Frame MainFrame = new();
         internal delegate void Error(string? message);
         internal App()
