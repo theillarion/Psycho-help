@@ -39,3 +39,15 @@
 ![image](https://user-images.githubusercontent.com/95585343/230799420-736e2e80-4405-4a26-bac5-815d467616d5.png)
 ![image](https://user-images.githubusercontent.com/95585343/230799429-f3619826-770d-40b9-b9aa-f874f6d41916.png)
 ![image](https://user-images.githubusercontent.com/95585343/230799442-f92eb049-4782-4c4f-9f72-73e85e438f5c.png)
+
+После обсуждения с заказчиком было принято решение изменить цветовую гамму, реализовав первый вариант из показанных выше. 
+Получены следующие результаты
+
+![image](https://user-images.githubusercontent.com/95585343/232347611-71bcd5ca-33d7-429b-89ba-36c25aa0a74b.png)
+![image](https://user-images.githubusercontent.com/95585343/232347635-5b8d5ce5-65db-4007-9496-6bd46b460a6d.png)
+![image](https://user-images.githubusercontent.com/95585343/232347665-4bebc0a9-f018-46fa-aec2-87878bbb891c.png)
+
+Также была реализована представление базы данных в главном окне администратора:
+
+![image](https://user-images.githubusercontent.com/95585343/232347710-4b559a93-9686-4544-86dd-768036064faa.png)
+
