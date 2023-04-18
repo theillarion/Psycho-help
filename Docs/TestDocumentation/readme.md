@@ -7,6 +7,15 @@
 В разделе Act вызывается тестируемый метод и сохраняется его результат.
 В разделе Assert проверяется, что результат тестируемого метода соответствует ожидаемому результату.
 Эти тесты позволяют убедиться в правильности работы класса DbService и его методов. Они также обеспечивают защиту от ошибок при изменении кода класса в будущем.
+Эти тесты покрывают различные сценарии использования методов в IDbService интерфейсе. Каждый тест проверяет поведение метода в разных условиях.
+1.	TestExistsUser_WhenUserExists_ShouldReturnTrue: проверяет, что метод ExistsUser возвращает true, если пользователь с заданным логином существует.
+2.	TestExistsUser_WhenUserDoesNotExist_ShouldReturnFalse: проверяет, что метод ExistsUser возвращает false, если пользователь с заданным логином не существует.
+3.	TestIsBannedUser_WhenUserIsBanned_ShouldReturnTrue: проверяет, что метод IsBannedUser возвращает true, если пользователь с заданным логином заблокирован.
+4.	TestIsBannedUser_WhenUserIsNotBanned_ShouldReturnFalse: проверяет, что метод IsBannedUser возвращает false, если пользователь с заданным логином не заблокирован.
+5.	TestGetHashPassword_WhenUserExists_ShouldReturnHashPassword: проверяет, что метод GetHashPassword возвращает правильный хэш-пароль для заданного логина.
+6.	TestGetDataUserByLogin_WhenUserExists_ShouldReturnDataRow: проверяет, что метод GetDataUserByLogin возвращает DataRow, содержащий информацию о пользователе с заданным логином.
+7.	TestGetDataUserByLogin_WhenUserDoesNotExist_ShouldReturnNull: проверяет, что метод GetDataUserByLogin возвращает null, если пользователь с заданным логином не существует в базе данных.
+
 
 2)Тесты для класса DbSettingsService предназначен для работы с файлом настроек базы данных. Он содержит методы для проверки наличия файла настроек, получения настроек из файла, сохранения настроек в файл и удаления файла настроек.
 Метод DbSettingsFileExists() проверяет, существует ли файл настроек базы данных, и возвращает true, если файл существует, и false, если файл не существует.
