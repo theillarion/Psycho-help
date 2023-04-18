@@ -1,37 +1,4 @@
 ![ClassDiagram](https://user-images.githubusercontent.com/119236151/232856755-67ca6ed0-893e-4418-a79e-e92121324541.png)
-![ClassDiagram](https://user-images.githubusercontent.com/119236151/232856759-e758fb88-8ac7-4f29-b415-a9ae9c25b7e8.png)
-![ClassDiagram](https://user-images.githubusercontent.com/119236151/232856763-6e7ac023-88b5-4fb8-a6d4-5bfde14638a2.png)
-![ClassDiagram](https://user-images.githubusercontent.com/119236151/232856765-4a3e1fc7-c18c-4040-aa9a-a02f5ab37de5.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @startuml
 class DbUser {
   - IdUserRole: uint
