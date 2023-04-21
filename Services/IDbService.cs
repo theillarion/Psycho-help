@@ -16,7 +16,7 @@ namespace Xk7.Services
         string GetHashPassword(string login);
         AddUserResult AddUser(User user);
         DataRow? GetDataUserByLogin(string login);
-        AddLoggingResult AddLog(string login, LoggingType loggingType);
+        CommonAddResult AddLog(string login, LoggingType loggingType);
         DataTable? GetTable(string nameTable);
     }
 }

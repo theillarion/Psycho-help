@@ -137,13 +137,13 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-        public AddLoggingResult AddLog(string login, LoggingType loggingType)
+        public CommonAddResult AddLog(string login, LoggingType loggingType)
         {
             if (_connection is not { State: ConnectionState.Open })
                 throw new ConnectionException("Connection refused");
 
             if (!ExistsUser(login))
-                return AddLoggingResult.NotExistsUser;
+                return CommonAddResult.NotExistsUser;
 
             try
             {
@@ -152,7 +152,7 @@ namespace Xk7.Services
                 command.AddParameterWithValue("@LoggingType", loggingType);
                 command.AddParameterWithValue("@Login", login);
 
-                return command.ExecuteNonQuery() == 1 ? AddLoggingResult.Success : AddLoggingResult.Unknown;
+                return command.ExecuteNonQuery() == 1 ? CommonAddResult.Success : CommonAddResult.Unknown;
             }
             catch (Exception ex)
             {
