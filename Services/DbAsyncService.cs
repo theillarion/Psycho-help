@@ -14,7 +14,7 @@ namespace Xk7.Services
 {
     internal class DbAsyncService : IDbAsyncService
     {
-        private readonly DbConnection _connection;
+        private readonly DbConnection? _connection;
         public DbAsyncService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
