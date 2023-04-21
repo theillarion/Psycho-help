@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xk7.Helper.Enums
 {
-    public enum AddLoggingResult
+    public enum CommonAddResult
     {
         Success,
         NotExistsUser,
