@@ -16,7 +16,7 @@ namespace Xk7.Services
         Task<string> GetHashPasswordAsync(string login);
         Task<AddUserResult> AddUserAsync(User user);
         Task<DataRow?> GetDataUserByLoginAsync(string login);
-        Task<AddLoggingResult> AddLog(string login, LoggingType loggingType);
+        Task<CommonAddResult> AddLog(string login, LoggingType loggingType);
         Task<DataTable?> GetTable(string nameTable);
         Task<UserRole> GetUserRoleAsync(string login);
         Task<bool> IsBusySlotAsync(uint idSlot);
