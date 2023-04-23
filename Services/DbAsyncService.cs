@@ -14,7 +14,7 @@ namespace Xk7.Services
 {
     internal class DbAsyncService : IDbAsyncService
     {
-        private readonly DbConnection _connection;
+        private readonly DbConnection? _connection;
         public DbAsyncService(DbConnection connection, bool needOpenConnection = true)
         {
             if (!needOpenConnection)
@@ -47,14 +47,10 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-        public async Task<bool> IsBannedUserAsync(string login)
+        public static async Task<bool> IsBannedUserAsync(DbCommand command, string login)
         {
-            if (_connection is not { State: ConnectionState.Open })
-                throw new ConnectionException("Connection refused");
-
             try
             {
-                await using var command = _connection.CreateCommand();
                 command.CommandText = $"SELECT `IsBlocked` FROM `User` WHERE `Login` = @Login";
                 command.AddParameterWithValue("@Login", login);
 
@@ -65,6 +61,13 @@ namespace Xk7.Services
             {
                 throw new ExecuteException(ex.Message);
             }
+        }
+        public async Task<bool> IsBannedUserAsync(string login)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            return await IsBannedUserAsync(_connection.CreateCommand(), login);
         }
         public async Task<string> GetHashPasswordAsync(string login)
         {
@@ -135,13 +138,13 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-        public async Task<AddLoggingResult> AddLog(string login, LoggingType loggingType)
+        public async Task<CommonAddResult> AddLog(string login, LoggingType loggingType)
         {
             if (_connection is not { State: ConnectionState.Open })
                 throw new ConnectionException("Connection refused");
 
             if (!await ExistsUserAsync(login))
-                return AddLoggingResult.NotExistsUser;
+                return CommonAddResult.NotExistsUser;
 
             try
             {
@@ -150,14 +153,13 @@ namespace Xk7.Services
                 command.AddParameterWithValue("@LoggingType", loggingType);
                 command.AddParameterWithValue("@Login", login);
 
-                return await command.ExecuteNonQueryAsync() == 1 ? AddLoggingResult.Success : AddLoggingResult.Unknown;
+                return await command.ExecuteNonQueryAsync() == 1 ? CommonAddResult.Success : CommonAddResult.Unknown;
             }
             catch (Exception ex)
             {
                 throw new ExecuteException(ex.Message);
             }
         }
-
         public async Task<DataTable?> GetTable(string nameTable)
         {
             if (_connection is not { State: ConnectionState.Open })
@@ -166,7 +168,8 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM `{nameTable}`";
+                command.CommandText = $"SELECT * FROM @NameTable";
+                command.AddParameterWithValue("@NameTable", nameTable);
                 await using var reader = await command.ExecuteReaderAsync();
                 if (!reader.HasRows)
                     return null;
@@ -176,6 +179,131 @@ namespace Xk7.Services
             }
             catch (Exception ex)
             {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public static async Task<UserRole> GetUserRoleByLogin(DbCommand command, string login)
+        {
+            try
+            {
+                command.CommandText = $"SELECT IdUserRole FROM `User` WHERE `Login` = @Login";
+                command.AddParameterWithValue("@Login", login);
+
+                var reader = await command.ExecuteScalarAsync();
+                if (reader == null)
+                    throw new ExecuteException("User not exists");
+                return (UserRole)(uint)reader;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public async Task<UserRole> GetUserRoleAsync(string login)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            return await GetUserRoleByLogin(_connection.CreateCommand(), login);
+        }
+        public static async Task<bool> IsBusySlotAsync(DbCommand command, uint idSlot, bool blockTable = false)
+        {
+            try
+            {
+                command.CommandText = $"SELECT IsBusy FROM Timetable WHERE Id = @IdSlot";
+                if (blockTable)
+                    command.CommandText += " FOR UPDATE";
+                command.AddParameterWithValue("@IdSlot", idSlot);
+
+                var reader = await command.ExecuteScalarAsync();
+                return reader == null || (bool)reader;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public async Task<bool> IsBusySlotAsync(uint idSlot)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            return await IsBusySlotAsync(_connection.CreateCommand(), idSlot, false);
+        }
+        public async Task<AddSlotResult> AddSlotAsync(string employeeLogin, DateOnly slotDate, TimeOnly slotTime)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            if (!await ExistsUserAsync(employeeLogin))
+                return AddSlotResult.NotExistsUser;
+
+            if (await GetUserRoleAsync(employeeLogin) != UserRole.Psychologist)
+                return AddSlotResult.WrongUserRole;
+
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                command.CommandText = "INSERT INTO `Timetable`(`EmployeeLogin`, `SlotDate`, `SlotTime`, `IsBusy`)" +
+                                  "VALUES(@EmployeeLogin, @SlotDate, @SlotTime, @IsBusy)";
+                command.AddParameterWithValue("@EmployeeLogin", employeeLogin);
+                command.AddParameterWithValue("@SlotDate", slotDate.ToString("yyyy-MM-dd"));
+                command.AddParameterWithValue("@SlotTime", slotTime.ToString("HH:mm"));
+                command.AddParameterWithValue("@IsBusy", false);
+
+                return await command.ExecuteNonQueryAsync() == 1 ? AddSlotResult.Success : AddSlotResult.Unknown;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+        public async Task<BlockSlotResult> BlockSlotAsync(uint idSlot, string userLogin)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            await using var transaction = await _connection.BeginTransactionAsync(IsolationLevel.RepeatableRead);
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                command.Transaction = transaction;
+
+                if (await IsBannedUserAsync(command, userLogin))
+                {
+                    await transaction.RollbackAsync();
+                    return BlockSlotResult.UserNotExists;
+                }
+
+                if (await IsBusySlotAsync(command, idSlot, true))
+                {
+                    await transaction.RollbackAsync();
+                    return BlockSlotResult.SlotNotExists;
+                }
+
+                command.CommandText = "INSERT INTO `UserTimetable`(`IdTimetable`, `UserLogin`) VALUES (@IdSlot, @Login)";
+
+                if (await command.ExecuteNonQueryAsync() != 1)
+                {
+                    await transaction.RollbackAsync();
+                    return BlockSlotResult.Unknown;
+                }
+
+                command.CommandText = "UPDATE `Timetable` SET `IsBusy` = @Value WHERE `Id` = @IdSlot";
+                command.AddParameterWithValue("@Value", true);
+
+                if (await command.ExecuteNonQueryAsync() != 1)
+                {
+                    await transaction.RollbackAsync();
+                    return BlockSlotResult.Unknown;
+                }
+
+                await transaction.CommitAsync();
+                return BlockSlotResult.Success;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
                 throw new ExecuteException(ex.Message);
             }
         }

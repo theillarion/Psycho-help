@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Xk7.Helper.Enums
 {
-    public enum AddLoggingResult
+    public enum BlockSlotResult
     {
         Success,
-        NotExistsUser,
+        UserNotExists,
+        SlotNotExists,
         Unknown,
     }
 }
