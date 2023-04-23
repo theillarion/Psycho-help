@@ -97,14 +97,14 @@ namespace Xk7.Views
 
         private void AdminPanelEditButton(object sender, RoutedEventArgs e)
         {
-            var Row = sender;
-            /*var user = Row.DataContext as User;
+            var user = dbTable.SelectedItem as DbUser;
+           
             if (user == null) 
                 return;
             else
             {
                 App.MainFrame.Navigate(new EditUser(_dbService, user));
-            }*/
+            }
 
 
             

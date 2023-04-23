@@ -24,13 +24,14 @@ namespace Xk7.Views
     {
         private readonly IDbAsyncService _dbAsyncService;
         private const string TitlePage = "EditUser";
-        internal EditUser(IDbAsyncService dbAsyncService, User user)
+        internal EditUser(IDbAsyncService dbAsyncService, DbUser user)
         {
             InitializeComponent();
-
+            
             UserRoleTextBox.Text = user.IdUserRole.ToString();
             LoginTextBox.Text = user.Login;
             FirstNameTextBox.Text = user.FirstName;
+            SecondNameTextBox.Text = user.SecondName;
             DateBirthTextBox.Text = user.DateBirthday.ToString();
 
 
@@ -39,14 +40,11 @@ namespace Xk7.Views
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             return;
-
         }
 
-
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            App.MainFrame.Navigate(AdminPanel.CreateAsync());
+            App.MainFrame.Navigate(await AdminPanel.CreateAsync());
         }
     }
 }

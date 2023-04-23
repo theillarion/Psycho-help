@@ -159,6 +159,35 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
+
+        internal CommonAddResult UpdateUserTable(string OldLogin, DbUser NewUser)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            if (!ExistsUser(OldLogin))
+                return CommonAddResult.NotExistsUser;
+
+            try
+            {
+                using var command = _connection.CreateCommand();
+                command.CommandText = $"UPDATE `User` SET `IdUserRole` = @IdUserRole,`Login` =  @Login, `Password` =  @Password, `FirstName` = @FirstName, `SecondName` =  @SecondName, `DateBirthday` = @DateBirthday, `IsBlocked` = @IsBlocked WHERE `Login` == @Login ";  
+                command.AddParameterWithValue("@IdUserRole", (int)NewUser.IdUserRole);
+                command.AddParameterWithValue("@Login", NewUser.Login);
+                command.AddParameterWithValue("@Password", NewUser.HashPassword);
+                command.AddParameterWithValue("@FirstName", NewUser.FirstName);
+                command.AddParameterWithValue("@SecondName", NewUser.SecondName);
+                command.AddParameterWithValue("@DateBirthday", NewUser.DateBirthday.ToString("yyyy-MM-dd"));
+                command.AddParameterWithValue("@IsBlocked", NewUser.IsBlocked);
+                return command.ExecuteNonQuery() == 1 ? CommonAddResult.Success : CommonAddResult.Unknown;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+
+        }
+
         public DataTable? GetTable(string nameTable)
         {
             if (_connection is not { State: ConnectionState.Open })
