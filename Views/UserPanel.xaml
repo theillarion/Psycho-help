@@ -46,6 +46,22 @@
                         <Separator Margin="25" DockPanel.Dock="Top" Height="1" Background="Black"></Separator>
 
                         <!--Menu Buttons-->
+                        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0 0 0">
+                            <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="ProfileButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Human" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
+                                    <TextBlock Text="Profile" Foreground="Black"></TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="SlotsButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Table" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
+                                    <TextBlock Text="Slots" Foreground="Black"></TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <!--Exit Button-->
                         <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25 0 0 0">
                             <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="ExitClick">
                                 <StackPanel Orientation="Horizontal">
@@ -74,13 +90,13 @@
                 </Button>
 
                 <!--Page Title-->
-                <TextBlock Text="Users" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="White" HorizontalAlignment="Left"/>
+                <TextBlock Text="Slots" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="Black" HorizontalAlignment="Left"/>
 
                 <!--Add Button-->
-                <Button Style="{StaticResource addButton}">
+                <Button Style="{StaticResource addButton}" x:Name="AddSlotButton" Click="AddSlotButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <Icon:PackIconMaterial Kind="Plus" Foreground="Black" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
-                        <TextBlock Foreground="Black" Text="Add new user"/>
+                        <TextBlock Foreground="Black" Text="Add new slot"/>
                     </StackPanel>
                 </Button>
 
@@ -88,20 +104,16 @@
                 <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
 
                 <!--Data Grid-->
-                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbTable" Style="{DynamicResource DataGridStyle1}">
+                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbUserSlots" Style="{DynamicResource DataGridStyle1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="User Role" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdUserRole}"/>
-                        <DataGridTextColumn Header="Login" Binding="{Binding Login}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="SecondName" Binding="{Binding SecondName}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Date birthday" Binding="{Binding DateBirthday}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="IdTimeTable" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdTimeTable}"/>
+                        <DataGridTextColumn Header="Psychologist name" Binding="{Binding EmployeeLogin}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Slot Date" Binding="{Binding SlotDate}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="SlotTime" Binding="{Binding SlotTime}" IsReadOnly="True" Width="*"/>
                         <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridEditButton}">
-                                            <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                        </Button>
                                         <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
                                             <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                         </Button>

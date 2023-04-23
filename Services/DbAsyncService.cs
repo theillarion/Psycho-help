@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Xk7.Helper.Enums;
 using Xk7.Helper.Exceptions;
 using Xk7.Helper.Extensions;
@@ -335,5 +336,28 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
+
+        public async Task<DataTable?> GetSlotsTableByLogin(string login)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                command.CommandText = $"SELECT * FROM `UserTimetable` JOIN `Timetable` ON `Timetable.Id` =  `UserTimetable.IdTimetable` WHERE UserLogin = @login;";
+                await using var reader = await command.ExecuteReaderAsync();
+                if (!reader.HasRows)
+                    return null;
+                using var result = new DataTable();
+                result.Load(reader);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
     }
+
 }

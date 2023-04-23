@@ -46,7 +46,7 @@ namespace Xk7.Views
             EditedUser.SecondName = SecondNameTextBox.Text;
             EditedUser.DateBirthday = DateTime.Parse(DateBirthTextBox.Text);
 
-            _dbAsyncService.UpdateUserTableAsync(_user.Login.ToString(), EditedUser);
+            _dbAsyncService.UpdateUserTableAsync(_user.Login, EditedUser);
             App.MainFrame.Navigate(await AdminPanel.CreateAsync());
             
 

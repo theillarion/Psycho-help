@@ -54,20 +54,19 @@ namespace Xk7.Views
             {
                 var obj = new DbUser()
                 {
-                    IdUserRole = (uint)row.ItemArray[0],
-                    Login = (string)row.ItemArray[1],
-                    HashPassword = (byte[])row.ItemArray[2],
-                    FirstName = (string)row.ItemArray[3],
-                    SecondName = (string)row.ItemArray[4],
-                    DateBirthday = (DateTime)row.ItemArray[5],
-                    IsBlocked = (bool)row.ItemArray[6]
+                    IdUserRole   = (uint) row.ItemArray[0],
+                    Login        = (string) row.ItemArray[1],
+                    HashPassword = (byte[]) row.ItemArray[2],
+                    FirstName    = (string) row.ItemArray[3],
+                    SecondName   = (string) row.ItemArray[4],
+                    DateBirthday = (DateTime) row.ItemArray[5],
+                    IsBlocked    = (bool) row.ItemArray[6]
                 };
                 test.Add(obj);
             }
             Result.dbTable.ItemsSource = test;
 
             return Result;
-
         }
 
         private void ChangeLanguageClick(object sender, RoutedEventArgs e)
