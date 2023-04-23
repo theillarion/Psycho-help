@@ -168,8 +168,7 @@ namespace Xk7.Services
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM @NameTable";
-                command.AddParameterWithValue("@NameTable", nameTable);
+                command.CommandText = $"SELECT * FROM `{nameTable}`";
                 await using var reader = await command.ExecuteReaderAsync();
                 if (!reader.HasRows)
                     return null;
