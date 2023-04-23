@@ -21,6 +21,7 @@ namespace Xk7
         internal readonly IDbAsyncService _dbAsyncService;
         internal static readonly NavigationWindow MainFrame = new();
         internal static readonly DbAsyncService? dbService;
+        internal static string language = "en";
         //internal static System.Windows.Controls.Frame MainFrame = new();
         internal delegate void Error(string? message);
         internal App()
@@ -30,7 +31,7 @@ namespace Xk7
             MainFrame.Width = 1248;
             MainFrame.Height = 702;
             //
-            UICultureService.SetCulture(new CultureInfo("en"));
+            UICultureService.SetCulture(new CultureInfo(language));
             var dbService = ConfigureDefaultDbService(FatalError);
             if (dbService != null)
                 MainFrame.Navigate(new Auth(dbService));

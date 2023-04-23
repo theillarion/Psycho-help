@@ -166,13 +166,14 @@
                 <GradientStop Color="White" Offset="0"/>
             </LinearGradientBrush>
         </Grid.Background>
+        
         <Label Content="{x:Static p:Resource.LabelLogin}"  HorizontalAlignment="Center" Margin="0,265,0,0" VerticalAlignment="Top" Height="36" Width="240" Foreground="Black" FontFamily="Lucida Console" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center"/>
         <Label Content="{x:Static p:Resource.LabelNameProject}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="68" Width="660" Foreground="Black" FontFamily="Arial" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <TextBox x:Name="loginTextBox" Text="{x:Static p:Resource.TextInputLogin}" Style="{DynamicResource RoundedTextBoxStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="loginTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,315,0,0"/>
         <TextBox x:Name="passTextBox" Text="{x:Static p:Resource.TextInputPassword}" Style="{DynamicResource RoundedTextBoxStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="312" Height="28" FontWeight="Bold" FontFamily="Lucida Bright" TextWrapping="WrapWithOverflow" BorderThickness="1,1,1,1" ClipToBounds="True" PreviewMouseLeftButtonDown="passTextBox_PreviewMouseLeftButtonDown" FontSize="14" SelectionTextBrush="White" Foreground="#FF8F8383" TextAlignment="Center" Margin="0,357,0,0"/>
-
+        
         <StackPanel Orientation="Horizontal" Margin="0,394,0,0" VerticalAlignment="Top" HorizontalAlignment="Center">
-
+            
             <Button x:Name="loginButton" Content="{x:Static p:Resource.ButtonLogin}" Style="{DynamicResource ButtonRounded}" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="loginClick" FontFamily="Lucida Console" Background="SkyBlue" Foreground="Black"/>
             <Button x:Name="regButton" Content="{x:Static p:Resource.ButtonRegistration}" Style="{DynamicResource ButtonRounded}" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="54" Width="150" Click="regButton_Click" FontFamily="Lucida Console" Background="SkyBlue" Foreground="Black"/>
 
@@ -188,5 +189,6 @@
             </TextBox.Background>
         </TextBox>
         <Icon:PackIconMaterial Kind="AccessPoint" Foreground="SkyBlue" Height="88" Width="104" HorizontalAlignment="Center" Margin="0,70,0,0"/>
+        <Button Height="40" Width="40" Margin="602" Click="ChangeLanguageClick" Foreground="Black"></Button>
     </Grid>
 </Page>

@@ -21,6 +21,7 @@ using Xk7.Services;
 using MySql.Data.MySqlClient;
 using Xk7.Helper.Enums;
 using Xk7.Views;
+using System.Globalization;
 
 namespace Xk7.pages
 {
@@ -123,6 +124,20 @@ namespace Xk7.pages
         private void employeeLoginButton_Click(object sender, RoutedEventArgs e)
         {
             loginClick(sender, e);
+        }
+
+        private void ChangeLanguageClick(object sender, RoutedEventArgs e)
+        {
+            if (App.language.Equals("ru"))
+            {
+                App.language = "en";
+                UICultureService.SetCulture(new CultureInfo(App.language));
+            }
+            else
+            {
+                App.language = "ru";
+                UICultureService.SetCulture(new CultureInfo(App.language));
+            }
         }
     }
 }
