@@ -88,7 +88,7 @@
                 <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
 
                 <!--Data Grid-->
-                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbTable" Style="{DynamicResource DataGridStyle1}">
+                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbTable" Style="{DynamicResource DataGridStyle1}" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="User Role" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdUserRole}"/>
                         <DataGridTextColumn Header="Login" Binding="{Binding Login}" IsReadOnly="True" Width="*"/>
@@ -99,7 +99,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridEditButton}">
+                                        <Button Style="{StaticResource gridEditButton}" Click="AdminPanelEditButton">
                                             <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                         </Button>
                                         <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">

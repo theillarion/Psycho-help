@@ -189,6 +189,5 @@
             </TextBox.Background>
         </TextBox>
         <Icon:PackIconMaterial Kind="AccessPoint" Foreground="SkyBlue" Height="88" Width="104" HorizontalAlignment="Center" Margin="0,70,0,0"/>
-        <Button Height="40" Width="40" Margin="602" Click="ChangeLanguageClick" Foreground="Black"></Button>
     </Grid>
 </Page>
