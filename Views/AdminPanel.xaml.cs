@@ -97,9 +97,8 @@ namespace Xk7.Views
 
         private void AdminPanelEditButton(object sender, RoutedEventArgs e)
         {
-            var user = dbTable.SelectedItem as DbUser;
-           
-            if (user == null) 
+            var user = dbTable.SelectedItem as DbUser;         
+            if (user is null) 
                 return;
             else
             {

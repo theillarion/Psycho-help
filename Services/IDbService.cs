@@ -18,5 +18,6 @@ namespace Xk7.Services
         DataRow? GetDataUserByLogin(string login);
         CommonAddResult AddLog(string login, LoggingType loggingType);
         DataTable? GetTable(string nameTable);
+        internal CommonAddResult UpdateUserTable(string OldLogin, DbUser NewUser);
     }
 }

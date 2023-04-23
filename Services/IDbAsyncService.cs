@@ -22,5 +22,7 @@ namespace Xk7.Services
         Task<bool> IsBusySlotAsync(uint idSlot);
         Task<AddSlotResult> AddSlotAsync(string employeeLogin, DateOnly slotDate, TimeOnly slotTime);
         Task<BlockSlotResult> BlockSlotAsync(uint idSlot, string userLogin);
+
+        Task<CommonAddResult> UpdateUserTableAsync(string OldLogin, DbUser NewUser);
     }
 }

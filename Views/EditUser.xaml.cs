@@ -23,23 +23,34 @@ namespace Xk7.Views
     public partial class EditUser : Page
     {
         private readonly IDbAsyncService _dbAsyncService;
+        private DbUser _user;
         private const string TitlePage = "EditUser";
         internal EditUser(IDbAsyncService dbAsyncService, DbUser user)
         {
             InitializeComponent();
-            
+            _dbAsyncService = dbAsyncService; 
+            _user = user; 
             UserRoleTextBox.Text = user.IdUserRole.ToString();
             LoginTextBox.Text = user.Login;
             FirstNameTextBox.Text = user.FirstName;
             SecondNameTextBox.Text = user.SecondName;
             DateBirthTextBox.Text = user.DateBirthday.ToString();
-
-
-
         }
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        private async void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            return;
+            DbUser EditedUser = (DbUser)_user.Clone();
+
+            EditedUser.Login = LoginTextBox.Text;
+            EditedUser.IdUserRole = uint.Parse(UserRoleTextBox.Text);
+            EditedUser.FirstName = FirstNameTextBox.Text;
+            EditedUser.SecondName = SecondNameTextBox.Text;
+            EditedUser.DateBirthday = DateTime.Parse(DateBirthTextBox.Text);
+
+            _dbAsyncService.UpdateUserTableAsync(_user.Login.ToString(), EditedUser);
+            App.MainFrame.Navigate(await AdminPanel.CreateAsync());
+            
+
+
         }
 
         private async void CancelButton_Click(object sender, RoutedEventArgs e)
