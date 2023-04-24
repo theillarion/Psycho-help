@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -34,22 +35,37 @@ namespace Xk7.Views
             InitializeComponent();
             _user = user;
             _dbService = dbService;
-            this.CreateAsync();
         }
 
         internal async Task<UserPanel> CreateAsync()
         {
-            UserPanel Result = new UserPanel(_dbService, _user);
-            var Table = await Result._dbService.GetSlotsTableByLogin("test");
+            /*            var Result = new UserPanel(_dbService, _user);
+                        var Table = await Result._dbService.GetSlotsTableByLogin("test");
+                        var test = new ObservableCollection<Slot>();
+                        foreach (DataRow row in Table.Rows)
+                        {
+                            var obj = new Slot()
+                            {
+                                Id = (uint)row.ItemArray[0],
+                                UserLogin = (string)row.ItemArray[1],
+                                EmployeeLogin = (string)row.ItemArray[2],
+                                SlotDate = (DateOnly)row.ItemArray[3],
+                                SlotTime = (TimeOnly)row.ItemArray[4]
+                            };
+                            test.Add(obj);
+                        }
+
+
+                        Result.dbUserSlots.ItemsSource = test;
+
+                        return Result;*/
+
+            var Result = new UserPanel(_dbService, _user);
+            var Table = await Result._dbService.GetTable("Timetable");
             var test = new ObservableCollection<Slot>();
             foreach (DataRow row in Table.Rows)
             {
-                var IdTimeTable = (uint)row.ItemArray[0];
-                var UserLogin = (string)row.ItemArray[1];
-                var EmployeeLogin = (string)row.ItemArray[3];
-                var SlotDate = (DateOnly)row.ItemArray[4];
-                var SlotTime = (TimeOnly)row.ItemArray[5];
-                var obj = new Slot(IdTimeTable, UserLogin, EmployeeLogin, SlotDate, SlotTime);
+                Slot obj = new Slot((uint)row.ItemArray[0], (string)row.ItemArray[1], DateOnly.FromDateTime((DateTime)(row.ItemArray[2])), (TimeOnly)row.ItemArray[3]);
                 test.Add(obj);
             }
             Result.dbUserSlots.ItemsSource = test;
@@ -89,7 +105,7 @@ namespace Xk7.Views
         }
         private void SlotsButton_Click(object sender, RoutedEventArgs e)
         {
-            return;
+            CreateAsync();
         }
 
     }

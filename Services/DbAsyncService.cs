@@ -341,11 +341,11 @@ namespace Xk7.Services
         {
             if (_connection is not { State: ConnectionState.Open })
                 throw new ConnectionException("Connection refused");
-
             try
             {
                 await using var command = _connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM `UserTimetable` JOIN `Timetable` ON `Timetable.Id` =  `UserTimetable.IdTimetable` WHERE UserLogin = @login;";
+                //command.CommandText = $"SELECT IdTimetable, EmployeeLogin, SlotDate, SlotTime FROM Timetable JOIN UserTimetable ON Timetable.Id =  UserTimetable.IdTimetable AND UserLogin = `test`;";
+                command.CommandText = $"SELECT * FROM `Timetable`;";
                 await using var reader = await command.ExecuteReaderAsync();
                 if (!reader.HasRows)
                     return null;

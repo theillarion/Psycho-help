@@ -97,7 +97,7 @@
             <!--Seprator-->
             <Separator Height="1" Grid.Row="2" Background="#DAE2EA" Margin="0 -1 0 20"/>
             
-            <Grid Grid.Row="3" Margin="0 30 0 0" Width="600" HorizontalAlignment="Left" >
+            <Grid Grid.Row="3" Margin="0 30 0 0" Width="1000" HorizontalAlignment="Left" >
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -113,10 +113,10 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" x:Name="SecondName" Text="Second Name: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Margin="0 10 0 10"></TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="0" x:Name="DateBirth" Text="Date Birth: " HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Margin="0 10 0 10"></TextBlock>
 
-                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="LoginTextBlock" Text="{Binding Login}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
-                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="FirstNameTextBlock" Text="{Binding FirstName}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="SecondNameTextBlock" Text="{Binding SecondName}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="1" x:Name="DateBirthTextBlock" Text="{Binding DateBirth}" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="LoginTextBlock" Text="{Binding Login}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="FirstNameTextBlock" Text="{Binding FirstName}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="SecondNameTextBlock" Text="{Binding SecondName}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10"></TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" x:Name="DateBirthTextBlock" Text="{Binding DateBirth}" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15" FontWeight="DemiBold" FontFamily="Arial" Margin="10 10 0 10" Width="700"></TextBlock>
 
             </Grid>
         </Grid>

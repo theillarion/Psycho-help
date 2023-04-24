@@ -106,7 +106,7 @@
                 <!--Data Grid-->
                 <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbUserSlots" Style="{DynamicResource DataGridStyle1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="IdTimeTable" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdTimeTable}"/>
+                        <DataGridTextColumn Header="IdTimeTable" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/>
                         <DataGridTextColumn Header="Psychologist name" Binding="{Binding EmployeeLogin}" IsReadOnly="True" Width="*"/>
                         <DataGridTextColumn Header="Slot Date" Binding="{Binding SlotDate}" IsReadOnly="True" Width="*"/>
                         <DataGridTextColumn Header="SlotTime" Binding="{Binding SlotTime}" IsReadOnly="True" Width="*"/>

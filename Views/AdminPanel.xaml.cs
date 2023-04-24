@@ -88,11 +88,6 @@ namespace Xk7.Views
             App.MainFrame.Navigate(new Auth(_dbService));
         }
 
-        public void ShowUser(User user)
-        {
-            
-        }
-
 
         private void AdminPanelEditButton(object sender, RoutedEventArgs e)
         {
