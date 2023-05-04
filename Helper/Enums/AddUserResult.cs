@@ -11,5 +11,9 @@ namespace Xk7.Helper.Enums
         Unknown,
         Success,
         UserExists,
+        UserAlreadyExists,
+        DatabaseError,
+        InvalidUsername,
+        InvalidPassword,
     }
 }

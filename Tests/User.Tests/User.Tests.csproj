@@ -15,6 +15,12 @@
     <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<CollectCoverage>true</CollectCoverage>
+	<CoverletOutputFormat>lcov</CoverletOutputFormat>
+	<CoverletOutput>/TestResults/coverage/</CoverletOutput>
+  </PropertyGroup>dotnet test /p:CollectCoverage=true
 
   <ItemGroup>
     <ProjectReference Include="..\Psycho-help-dev\App.csproj" />

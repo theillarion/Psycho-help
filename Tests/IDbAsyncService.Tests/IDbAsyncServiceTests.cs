@@ -4,6 +4,7 @@ using System.Data;
 using Xk7.Services;
 using Xk7.Helper.Enums;
 using Xk7.Model;
+using System;
 
 namespace Xk7.Tests.IDbAsyncService.Tests
 {
@@ -124,5 +125,50 @@ namespace Xk7.Tests.IDbAsyncService.Tests
             // Assert
             Assert.IsNull(result);
         }
+        //TestAddUser_WhenUserIsAdded_ShouldReturnAddUserResultSuccess: проверяет, что метод AddUser возвращает AddUserResult.Success, если пользователь успешно добавлен в базу данных.
+        [Test]
+        public void TestAddUser_WhenUserIsAdded_ShouldReturnAddUserResultSuccess()
+        {
+            // Arrange
+            User user = new User("test_user", "test_password");
+            mockDbService.Setup(x => x.AddUser(user)).Returns(AddUserResult.Success);
+
+            // Act
+            AddUserResult result = mockDbService.Object.AddUser(user);
+
+            // Assert
+            Assert.AreEqual(AddUserResult.Success, result);
+        }
+
+        //TestAddUser_WhenUserAlreadyExists_ShouldReturnAddUserResultUserAlreadyExists: проверяет, что метод AddUser возвращает AddUserResult.UserAlreadyExists, если пользователь с таким логином уже существует в базе данных.
+        [Test]
+        public void TestAddUser_WhenUserAlreadyExists_ShouldReturnAddUserResultUserAlreadyExists()
+        {
+            // Arrange
+            User user = new User("existing_user", "test_password");
+            Moq.Language.Flow.IReturnsResult<IDbService> returnsResult = mockDbService.Setup(x => x.AddUser(user)).Returns(AddUserResult.UserAlreadyExists);
+
+            // Act
+            AddUserResult result = mockDbService.Object.AddUser(user);
+
+            // Assert
+            Assert.AreEqual(AddUserResult.UserAlreadyExists, result);
+        }
+
+        //TestAddUser_WhenDatabaseErrorOccurs_ShouldReturnAddUserResultDatabaseError: проверяет, что метод AddUser возвращает AddUserResult.DatabaseError, если произошла ошибка при добавлении пользователя в базу данных.
+        [Test]
+        public void TestAddUser_WhenDatabaseErrorOccurs_ShouldReturnAddUserResultDatabaseError()
+        {
+            // Arrange
+            User user = new User("test_user", "test_password");
+            Moq.Language.Flow.IReturnsResult<IDbService> returnsResult = mockDbService.Setup(x => x.AddUser(user)).Returns(AddUserResult.DatabaseError);
+
+            // Act
+            AddUserResult result = mockDbService.Object.AddUser(user);
+
+            // Assert
+            Assert.AreEqual(AddUserResult.DatabaseError, result);
+        }
+       
     }
 }

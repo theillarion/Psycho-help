@@ -17,4 +17,3 @@ namespace Xk7.Services
         Task<AddUserResult> AddUserAsync(User user);
         Task<DataRow?> GetDataUserByLoginAsync(string login);
     }
-}
