@@ -33,5 +33,19 @@ namespace xk7.Tests
             Assert.AreEqual(dateBirthday, user.DateBirthday);
             Assert.AreEqual(isBanned, user.IsBanned);
         }
+
+        [Test]
+        public void User_Equals_ReturnsFalseForDifferentObjects()
+        {
+            // Arrange
+            var user1 = new User(UserRole.User, "testuser", new HashedValue("password"), "Test", "User", new DateOnly(2000, 1, 1), false);
+            var user2 = new User(UserRole.Admin, "testuser", new HashedValue("password"), "Test", "User", new DateOnly(2000, 1, 1), false);
+
+            // Act
+            var result = user1.Equals(user2);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
     }
 }
