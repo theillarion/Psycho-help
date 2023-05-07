@@ -33,7 +33,7 @@ namespace xk7.Tests
             Assert.AreEqual(dateBirthday, user.DateBirthday);
             Assert.AreEqual(isBanned, user.IsBanned);
         }
-
+        //Метод User_Equals_ReturnsFalseForDifferentObjects проверяет, что операция Equals возвращает false для двух объектов класса User, у которых разные значения свойства UserRole, даже если остальные свойства объектов равны. То есть метод тестирует правильность реализации метода Equals для класса User в случае, когда объекты не эквивалентны.
         [Test]
         public void User_Equals_ReturnsFalseForDifferentObjects()
         {
