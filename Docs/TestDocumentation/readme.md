@@ -37,11 +37,15 @@
 2.  TestAddUser_WhenDatabaseErrorOccurs_ShouldReturnAddUserResultDatabaseError проверяет, что метод AddUser возвращает AddUserResult.DatabaseError, если произошла ошибка при добавлении пользователя в базу данных.
 3.  TestAddUser_WhenUserAlreadyExists_ShouldReturnAddUserResultUserAlreadyExists проверяет, что метод AddUser возвращает AddUserResult.UserAlreadyExists, если пользователь с таким логином уже существует в базе данных.
 Для каждого теста используется Moq-объект IDbService, который эмулирует работу с базой данных. Также в каждом тесте создается пользователь и вызывается метод AddUser с этим пользователем в качестве аргумента.
+
+
 Для класса DbSettingsService:
 1.  LoadDbSettings_ShouldReturnDbConnectionStringBuilder_WhenSettingsFileExists - проверяет, что метод загрузки настроек базы данных возвращает объект класса DbConnectionStringBuilder, если файл с настройками существует.
 2.  DbSettingsFileExists_ShouldReturnTrue_WhenSettingsFileExists - проверяет, что метод проверки существования файла настроек возвращает true, если файл существует.
 3.  DbSettingsFileExists_ShouldReturnFalse_WhenSettingsFileDoesNotExist - проверяет, что метод проверки существования файла настроек возвращает false, если файл не существует.
 Результаты покрытия кода тестами находятся в файле "coverage results.txt".
+
+
 Для класса UserTests:
 1.  User_Equals_ReturnsFalseForDifferentObjects проверяет правильность реализации метода Equals для класса User.Тест проверяет, что метод Equals корректно возвращает false для двух объектов класса User, которые отличаются значением свойства UserRole, даже если остальные свойства объектов равны. Тест помогает обеспечить правильную работу метода Equals в случае, когда объекты не эквивалентны.
 
