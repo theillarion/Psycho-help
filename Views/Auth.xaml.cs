@@ -78,7 +78,7 @@ namespace Xk7.pages
                     SetError(UICultureService.GetProperty("ErrorUserNotExists"));
                 else
                 {
-                    var user = UserFactory.FromDataRow<DbUser>(row);
+                    var user = Factory.FromDataRow<DbUser>(row);
                     if (user == null)
                         SetError(UICultureService.GetProperty("UnknownError"));
                     else if (user.IsBlocked)

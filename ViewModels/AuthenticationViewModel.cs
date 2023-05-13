@@ -50,7 +50,7 @@ namespace Xk7.ViewModels
                 }
                 else
                 {
-                    var user = UserFactory.FromDataRow<DbUser>(row);
+                    var user = Factory.FromDataRow<DbUser>(row);
                     if (Converts.ConvertByteArrayToString(user.HashPassword)
                         != Converts.ConvertStringToHeshString(password))
                     {
