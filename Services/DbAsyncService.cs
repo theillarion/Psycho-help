@@ -4,7 +4,10 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+
 using Xk7.Helper.Enums;
 using Xk7.Helper.Exceptions;
 using Xk7.Helper.Extensions;
@@ -306,38 +309,64 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
-        public static async Task<DataRowCollection?> GetNotificationsImpl(DbCommand command, string login, DateTime dateTimeBefore)
+        public async Task<DataRowCollection?> GetAllNotifications(string login, DateTime dateTimeBefore)
         {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+
+            await using var transaction = await _connection.BeginTransactionAsync(IsolationLevel.RepeatableRead);
+           
             try
             {
-                command.CommandText = $"SELECT `DateTimeCreated`, `Description`, `IsChecked` FROM `Notification` WHERE Notification.UserLogin = @Login AND DateTimeCreated > @DateTimeBefore";
+                await using var command = _connection.CreateCommand();
+                command.Transaction = transaction;
                 command.AddParameterWithValue("@Login", login);
+                command.CommandText =   $"SELECT `DateTimeMark` " +
+                                        $"FROM `NotificationLastAccessMark` " +
+                                        $"WHERE `UserLogin` = @Login FOR UPDATE";
+
+                var reader = await command.ExecuteScalarAsync();
+                var dateTimeNow = DateTime.UtcNow;
+
+                command.CommandText =   $"SELECT `DateTimeCreated`, `Description`, `IsChecked`" +
+                                        $"FROM `Notification`" +
+                                        $"WHERE Notification.UserLogin = @Login AND DateTimeCreated > @DateTimeBefore";
                 command.AddParameterWithValue("@DateTimeBefore", dateTimeBefore.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                await using var reader = await command.ExecuteReaderAsync();
-                if (!reader.HasRows)
+                await using var newReader = await command.ExecuteReaderAsync();
+                if (!newReader.HasRows)
                     return null;
                 using var table = new DataTable();
-                table.Load(reader);
-                return table.Rows;
+                table.Load(newReader);
+                var result_row = table.Rows;
+                await newReader.CloseAsync();
+
+                if (reader == null)
+                {
+                    command.CommandText = $"INSERT INTO `NotificationLastAccessMark`(`UserLogin`, `DateTimeMark`) " +
+                                          $"VALUES (@Login, @DateTimeMarkNow)";
+                    command.AddParameterWithValue("@DateTimeMarkNow", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                    // Должно быть затронута ровно 1 строка, иначе это отмена транзакции
+                    if (await command.ExecuteNonQueryAsync() != 1)
+                    {
+                        await transaction.RollbackAsync();
+                        return null;
+                    }
+                    await transaction.CommitAsync();
+                }
+                return result_row;
             }
             catch (Exception ex)
             {
                 throw new ExecuteException(ex.Message);
             }
         }
-        public async Task<DataRowCollection?> GetNotifications(string login, DateTime dateTimeBefore)
-        {
-            if (_connection is not { State: ConnectionState.Open })
-                throw new ConnectionException("Connection refused");
-
-            return await GetNotificationsImpl(_connection.CreateCommand(), login, dateTimeBefore);
-        }
         public async Task<DataRowCollection?> GetNewNotifications(string login)
         {
             if (_connection is not { State: ConnectionState.Open })
                 throw new ConnectionException("Connection refused");
 
-            await using var transaction = await _connection.BeginTransactionAsync(IsolationLevel.RepeatableRead);
+            await using var transaction = await _connection.BeginTransactionAsync(IsolationLevel.Serializable);
+            
             try
             {
                 await using var command = _connection.CreateCommand();
@@ -348,17 +377,19 @@ namespace Xk7.Services
                                         $"FROM `NotificationLastAccessMark` " +
                                         $"WHERE `UserLogin` = @Login FOR UPDATE";
                 var reader = await command.ExecuteScalarAsync();
+                
 
                 // Необходимо создать метку
                 if (reader == null)
                 {
+                    var dateTimeNow = DateTime.UtcNow;
                     // Получаем все уведомления пользователя
                     command.CommandText = $"SELECT `DateTimeCreated`, `Description`, `IsChecked` " +
                                             $"FROM `Notification` " +
-                                            $"WHERE `UserLogin` = @Login";
+                                            $"WHERE `UserLogin` = @Login FOR UPDATE";
                     await using var newReader = await command.ExecuteReaderAsync();
                     // Увдомлений нету, ничего не делаем и возвращаем null collection
-                    if (reader == null || !newReader.HasRows)
+                    if (newReader == null || !newReader.HasRows)
                     {
                         // TODO: нужно ли делать Commit  перед return null, если в транзакции при текущем ветвлении использовались только select'ы
                         return null;
@@ -366,8 +397,6 @@ namespace Xk7.Services
                     // Уведомления есть, создаем метку и возвращаем collection
                     else
                     {
-                        var dateTimeNow = DateTime.UtcNow;
-
                         using var table = new DataTable();
                         table.Load(newReader);
                         var result_rows = table.Rows;
@@ -388,13 +417,14 @@ namespace Xk7.Services
                 }
                 else
                 {
+                    var dateTimeNow = DateTime.UtcNow;
                     command.CommandText = $"SELECT `DateTimeCreated`, `Description`, `IsChecked` " +
                                             $"FROM `Notification` " +
-                                            $"WHERE `UserLogin` = @Login AND `DateTimeCreated` > @DateTimeMark";
+                                            $"WHERE `UserLogin` = @Login AND `DateTimeCreated` > @DateTimeMark FOR UPDATE";
                     command.AddParameterWithValue("@DateTimeMark", ((DateTime)reader).ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     await using var newReader = await command.ExecuteReaderAsync();
                     // Увдомлений нету, ничего не делаем и возвращаем null collection
-                    if (reader == null || !newReader.HasRows)
+                    if (newReader == null || !newReader.HasRows)
                     {
                         // TODO: нужно ли делать Commit  перед return null, если в транзакции при текущем ветвлении использовались только select'ы
                         return null;
@@ -402,8 +432,6 @@ namespace Xk7.Services
                     // Уведомления есть, обновляем метку и возвращаем collection
                     else
                     {
-                        var dateTimeNow = DateTime.UtcNow;
-
                         using var table = new DataTable();
                         table.Load(newReader);
                         var result_rows = table.Rows;
