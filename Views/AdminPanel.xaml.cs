@@ -97,10 +97,7 @@ namespace Xk7.Views
             else
             {
                 App.MainFrame.Navigate(new EditUser(_dbService, user));
-            }
-
-
-            
+            }    
         }
 
 

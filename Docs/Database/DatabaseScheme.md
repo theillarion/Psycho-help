@@ -2,7 +2,8 @@
 
 ## Пользователи
 *	`Users(Id, Login, HashPassword, SecretKey, FirstName, SecondName, DataBirthday, IsBlocked)`
-*	`UserProfile(FK_UserId, ...)`
+*	`
+FK_UserId, ...)`
 
 ## Сотрудники
 *	`EmployeePositions(Id, Title)`\

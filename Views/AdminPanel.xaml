@@ -50,7 +50,7 @@
                             <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="ExitClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
-                                    <TextBlock Text="Exit" Foreground="Black"></TextBlock>
+                                    <TextBlock Style="{StaticResource changingColorTextBlock}" Text="Exit" Foreground="Black"></TextBlock>
                                 </StackPanel>
                             </Button>
                         </StackPanel>

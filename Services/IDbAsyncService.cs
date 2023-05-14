@@ -24,7 +24,8 @@ namespace Xk7.Services
         Task<BlockSlotResult> BlockSlotAsync(uint idSlot, string userLogin);
         Task<CommonAddResult> UpdateUserTableAsync(string OldLogin, DbUser NewUser);
         Task<DataTable?> GetSlotsTableByLogin(string login);
-
+        Task<DataRowCollection?> GetSlotsRowsByLogin(string login);
+        Task<bool> DeleteSlot(uint id);
 
     }
 }

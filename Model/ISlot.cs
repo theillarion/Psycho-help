@@ -8,9 +8,9 @@ namespace Xk7.Model
 {
     internal interface ISlot
     {
-        public uint Id { get; set; }
+        public uint IdTimetable { get; set; }
         public string? EmployeeLogin { get; set; }
-        public DateOnly SlotDate { get; set; }
-        public TimeOnly SlotTime { get; set; }
+        public DateTime SlotDate { get; set; }
+        public TimeSpan SlotTime { get; set; }
     }
 }

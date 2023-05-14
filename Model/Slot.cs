@@ -1,27 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Xk7.Helper.Enums;
 
 namespace Xk7.Model
 {
-    public class Slot : ISlot
+    public class Slot : ISlot, INotifyPropertyChanged
     {
-        public uint Id { get; set; }
-        public string? EmployeeLogin { get; set; }
-        public DateOnly SlotDate { get; set; }
-        public TimeOnly SlotTime { get; set; }
+        private uint id;
+        private string employeeLogin;
+        private DateTime slotDate;
+        private TimeSpan slotTime;
+        public uint IdTimetable
+        {
+            get 
+            {
+                return id; 
+            }
+            set
+            {
+                id = value;
+                OnPropertyChanged("IdTimetable");
+            }
+        }
+
+        public string? EmployeeLogin
+        {
+            get
+            {
+                return employeeLogin;
+            }
+            set
+            {
+                employeeLogin = value;
+                OnPropertyChanged("EmployeeLogin");
+            }
+        }
+        public DateTime SlotDate
+        {
+            get
+            {
+                return slotDate;
+            }
+            set
+            {
+                slotDate = value;
+                OnPropertyChanged("SlotDate");
+            }
+        }
+        public TimeSpan SlotTime
+        {
+            get
+            {
+                return slotTime;
+            }
+            set
+            {
+                slotTime = value;
+                OnPropertyChanged("SlotTime");
+            }
+        }
         public Slot() {}
 
-        public Slot(uint idTimeTable, string employeeLogin, DateOnly slotDate, TimeOnly slotTime)
+        public Slot(uint idTimeTable, string employeeLogin, DateTime slotDate, TimeSpan slotTime)
         {
-            Id = idTimeTable;
+            IdTimetable = idTimeTable;
             EmployeeLogin = employeeLogin;
             SlotDate = slotDate;
             SlotTime = slotTime;
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
     }
 }

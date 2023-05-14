@@ -358,6 +358,56 @@ namespace Xk7.Services
                 throw new ExecuteException(ex.Message);
             }
         }
+
+        public async Task<DataRowCollection?> GetSlotsRowsByLogin(string login)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+            try
+            {
+                await using var command = _connection.CreateCommand();
+                //command.CommandText = $"SELECT IdTimetable, EmployeeLogin, SlotDate, SlotTime FROM Timetable JOIN UserTimetable ON Timetable.Id =  UserTimetable.IdTimetable AND UserLogin = `test`;";
+                command.AddParameterWithValue("@Login", login);
+
+                command.CommandText = $"SELECT `IdTimetable`, `EmployeeLogin`, `SlotDate`, `SlotTime` " +
+                                      $"FROM `Timetable` JOIN `UserTimetable` " +
+                                      $"ON `Timetable`.`Id` =  `UserTimetable`.`IdTimetable` AND `UserLogin` = @Login";
+
+                await using var reader = await command.ExecuteReaderAsync();
+                if (!reader.HasRows)
+                    return null;
+                using var result = new DataTable();
+                result.Load(reader);
+                return result.Rows;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteSlot(uint id)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+            try
+            {
+                await using var command = _connection.CreateCommand();
+
+                command.AddParameterWithValue("@Id", id);
+
+                command.CommandText = $"DELETE " +
+                                        $"FROM `UserTimetable` " +
+                                        $"WHERE `IdTimetable` =  @Id";
+
+                await using var reader = await command.ExecuteReaderAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
     }
 
 }

@@ -64,7 +64,7 @@ namespace Xk7.Views
 
         private void SlotsButton_Click(object sender, RoutedEventArgs e)
         {
-            App.MainFrame.Navigate(new UserPanel(_dbAsyncService, _user));
+            App.MainFrame.Navigate(new UserPanel(_user));
         }
     }
 }

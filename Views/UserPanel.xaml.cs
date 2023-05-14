@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlX.XDevAPI.Relational;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ using System.Windows.Shapes;
 using Xk7.Model;
 using Xk7.pages;
 using Xk7.Services;
+using Xk7.ViewModels;
 
 namespace Xk7.Views
 {
@@ -30,47 +32,54 @@ namespace Xk7.Views
         private readonly IDbAsyncService _dbService;
         private const string TitlePage = "UserPanel";
         private DbUser _user;
-        internal UserPanel(IDbAsyncService dbService, DbUser user)
+        private readonly IDbAsyncService _dbAsyncService;
+        private SlotViewModel dataViewModel;
+        internal UserPanel(DbUser user)
         {
             InitializeComponent();
-            _user = user;
-            _dbService = dbService;
+            var dbService = App.ConfigureDefaultDbService(App.FatalError);
+            if (dbService == null)
+                App.FatalError(null);
+            else
+                _user = user;
+                _dbAsyncService = dbService;
+
+            dataViewModel = new();
+            UpdateSlotsAsync();
+            DataContext = dataViewModel;
+          
         }
 
-        internal async Task<UserPanel> CreateAsync()
+        private async void UpdateSlotsAsync()
         {
-            /*            var Result = new UserPanel(_dbService, _user);
-                        var Table = await Result._dbService.GetSlotsTableByLogin("test");
-                        var test = new ObservableCollection<Slot>();
-                        foreach (DataRow row in Table.Rows)
-                        {
-                            var obj = new Slot()
-                            {
-                                Id = (uint)row.ItemArray[0],
-                                UserLogin = (string)row.ItemArray[1],
-                                EmployeeLogin = (string)row.ItemArray[2],
-                                SlotDate = (DateOnly)row.ItemArray[3],
-                                SlotTime = (TimeOnly)row.ItemArray[4]
-                            };
-                            test.Add(obj);
-                        }
+            try
+            {
+                dataViewModel = new();
+                dataViewModel.Add(await _dbAsyncService.GetSlotsRowsByLogin(_user.Login));
+            }
+            catch (Exception ex)
+            {
+                App.FatalError(ex.Message);
+            }
+        }
 
-
-                        Result.dbUserSlots.ItemsSource = test;
-
-                        return Result;*/
-
-            var Result = new UserPanel(_dbService, _user);
+        internal void CreateAsync()
+        {
+            /*var Result = new UserPanel(_user);
             var Table = await Result._dbService.GetTable("Timetable");
             var test = new ObservableCollection<Slot>();
             foreach (DataRow row in Table.Rows)
             {
-                Slot obj = new Slot((uint)row.ItemArray[0], (string)row.ItemArray[1], DateOnly.FromDateTime((DateTime)(row.ItemArray[2])), (TimeOnly)row.ItemArray[3]);
+                Slot obj = new Slot((int)row.ItemArray[0], (string)row.ItemArray[1], (DateTime)(row.ItemArray[2]), (TimeSpan)row.ItemArray[3]);
                 test.Add(obj);
             }
             Result.dbUserSlots.ItemsSource = test;
 
-            return Result;
+            return Result;*/
+            dataViewModel = new();
+            UpdateSlotsAsync();
+            DataContext = dataViewModel;
+
         }
 
         private void ChangeLanguageClick(object sender, RoutedEventArgs e)
@@ -103,9 +112,19 @@ namespace Xk7.Views
             App.MainFrame.Navigate(new UserProfile(_dbService, _user));
 
         }
-        private void SlotsButton_Click(object sender, RoutedEventArgs e)
+        private async void SlotsButton_Click(object sender, RoutedEventArgs e)
         {
             CreateAsync();
+
+        }
+
+        private async void UserPanelDeleteButton(object sender, RoutedEventArgs e)
+        {
+            var slot = dbUserSlots.SelectedItem as Slot;
+            await _dbAsyncService.DeleteSlot(slot.IdTimetable);
+            dataViewModel = new();
+            UpdateSlotsAsync();
+            DataContext = dataViewModel;
         }
 
     }

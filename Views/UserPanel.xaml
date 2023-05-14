@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Xk7.Views" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:local="clr-namespace:Xk7.pages"
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
       mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="1248"
       Title="UserPanel">
@@ -104,17 +105,17 @@
                 <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
 
                 <!--Data Grid-->
-                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbUserSlots" Style="{DynamicResource DataGridStyle1}">
+                <DataGrid ItemsSource="{Binding Slots}" RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbUserSlots" Style="{DynamicResource DataGridStyle1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="IdTimeTable" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdTimetable}"/>
                         <DataGridTextColumn Header="Psychologist name" Binding="{Binding EmployeeLogin}" IsReadOnly="True" Width="*"/>
                         <DataGridTextColumn Header="Slot Date" Binding="{Binding SlotDate}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="SlotTime" Binding="{Binding SlotTime}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Slot Time" Binding="{Binding SlotTime}" IsReadOnly="True" Width="*"/>
                         <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                        <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="UserPanelDeleteButton">
                                             <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                         </Button>
                                     </StackPanel>
