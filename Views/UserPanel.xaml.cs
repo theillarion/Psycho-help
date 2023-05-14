@@ -103,7 +103,7 @@ namespace Xk7.Views
 
         private void AddSlotButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            App.MainFrame.Navigate(new AddSlot(_user));
 
         }
 

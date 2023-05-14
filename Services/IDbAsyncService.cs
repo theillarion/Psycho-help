@@ -26,6 +26,6 @@ namespace Xk7.Services
         Task<DataTable?> GetSlotsTableByLogin(string login);
         Task<DataRowCollection?> GetSlotsRowsByLogin(string login);
         Task<bool> DeleteSlot(uint id);
-
+        Task<DataRowCollection?> GetFreeSlotsRows();
     }
 }
