@@ -179,7 +179,7 @@
 
         </StackPanel>
         <Button x:Name="employeeLoginButton" Content="{x:Static p:Resource.ButtonLoginAsEmployee}" Style="{DynamicResource ButtonRounded}" HorizontalAlignment="Center" Height="53" Margin="0,457,0,0" VerticalAlignment="Top" Width="312" Click="employeeLoginButton_Click" Foreground="Black" BorderBrush="#FF0A0B0F" Background="SkyBlue" FontFamily="Lucida Console"/>
-        <TextBox x:Name="AuthExceptionTextBox" IsReadOnly ="True"  Style="{DynamicResource RoundedTextBox}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" Margin="0,228,0,0" TextWrapping="Wrap" Text="Exception" VerticalAlignment="Top" Width="404" FontFamily="Lucida Console" FontWeight="Bold" Foreground="#FFB5B5B5">
+        <TextBox x:Name="AuthExceptionTextBox" IsReadOnly ="True"  Style="{DynamicResource RoundedTextBox}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" Margin="0,228,0,0" TextWrapping="Wrap" Text="Exception" VerticalAlignment="Top" Width="404" FontFamily="Lucida Console" FontWeight="Bold" Foreground="Black">
             <TextBox.BorderBrush>
                 <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
             </TextBox.BorderBrush>

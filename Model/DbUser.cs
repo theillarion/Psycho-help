@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -9,15 +10,103 @@ using Xk7.Helper.Converts;
 
 namespace Xk7.Model
 {
-    internal class DbUser : IDbUser, ICloneable
+    internal class DbUser : IDbUser, ICloneable, INotifyPropertyChanged
     {
-        public uint IdUserRole { get; set; }
-        public string Login { get; set; }
-        public byte[] HashPassword { get; set; }
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
-        public DateTime DateBirthday { get; set; }
-        public bool IsBlocked { get; set; }
+        private uint idUserRole;
+        private string login;
+        private byte[] hashPassword;
+        private string firstName;
+        private string secondName;
+        private DateTime dateBirthday;
+        private bool isBlocked;
+        public uint IdUserRole
+        {
+            get
+            {
+                return idUserRole;
+            }
+            set
+            {
+                idUserRole = value;
+                OnPropertyChanged("IdTimetable");
+            }
+        }
+
+        public string? Login
+        {
+            get
+            {
+                return login;
+            }
+            set
+            {
+                login = value;
+                OnPropertyChanged("EmployeeLogin");
+            }
+        }
+        public byte[] HashPassword
+        {
+            get
+            {
+                return hashPassword;
+            }
+            set
+            {
+                hashPassword = value;
+                OnPropertyChanged("SlotDate");
+            }
+        }
+        public string FirstName
+        {
+            get
+            {
+                return firstName;
+            }
+            set
+            {
+                firstName = value;
+                OnPropertyChanged("SlotTime");
+            }
+        }
+
+        public string SecondName
+        {
+            get
+            {
+                return secondName;
+            }
+            set
+            {
+                secondName = value;
+                OnPropertyChanged("SlotTime");
+            }
+        }
+        public DateTime DateBirthday
+        {
+            get
+            {
+                return dateBirthday;
+            }
+            set
+            {
+                dateBirthday = value;
+                OnPropertyChanged("SlotTime");
+            }
+        }
+
+        public bool IsBlocked
+        {
+            get
+            {
+                return isBlocked;
+            }
+            set
+            {
+                isBlocked = value;
+                OnPropertyChanged("SlotTime");
+            }
+        }
+
         public DbUser() {}
         public DbUser(uint idUserRole, string login, byte[] hashPassword, string firstName, string secondName,
             DateTime dateBirthday, bool isBlocked)
@@ -30,6 +119,8 @@ namespace Xk7.Model
             DateBirthday = dateBirthday;
             IsBlocked = isBlocked;
         }
+
+       
         public override string ToString()
         {
             return
@@ -55,6 +146,15 @@ namespace Xk7.Model
         {
             return new DbUser(IdUserRole, Login, HashPassword, FirstName, SecondName, DateBirthday, IsBlocked);
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
 
     }
 }

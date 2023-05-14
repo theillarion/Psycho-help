@@ -17,8 +17,6 @@ namespace Xk7.ViewModels
         public SlotViewModel()
         {
             Slots = new();
-            DateOnly dateTimeOnly = DateOnly.FromDateTime(DateTime.Now);
-            TimeOnly timeOnly = TimeOnly.FromDateTime(DateTime.Now);
         }
         public static ObservableCollection<Slot>? ConvertFromDataRowCollection(DataRowCollection? dataRows)
         {

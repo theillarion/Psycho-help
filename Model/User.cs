@@ -1,5 +1,6 @@
 ﻿using Xk7.Helper.Enums;
 using System;
+using System.ComponentModel;
 
 namespace Xk7.Model
 {
@@ -20,7 +21,6 @@ namespace Xk7.Model
             Password = password;
             FirstName = firstName;
             SecondName = secondName;
-            //DateBirthday = DateOnly.Parse(dateBirthday.ToString("yyyy'-'MM'-'dd"));
             DateBirthday = dateBirthday;
             IsBanned = isBanned;
         }
@@ -29,5 +29,7 @@ namespace Xk7.Model
             return $"[ IdUserRole: {IdUserRole}, Login: {Login}, Password: {Password}, FirstName: {FirstName}, " +
                    $"SecondName: {SecondName}, DateBirthday: {DateBirthday}, IsBanned: {IsBanned}]";
         }
+
+
     }
 }
