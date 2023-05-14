@@ -13,6 +13,7 @@ using Mysqlx.Notice;
 using Xk7.Helper.Exceptions;
 using Xk7.pages;
 using Xk7.Services;
+using Xk7.Views;
 
 namespace Xk7
 {
@@ -20,7 +21,6 @@ namespace Xk7
     {
         internal readonly IDbAsyncService _dbAsyncService;
         internal static readonly NavigationWindow MainFrame = new();
-        //internal static System.Windows.Controls.Frame MainFrame = new();
         internal delegate void Error(string? message);
         internal App()
         {
@@ -37,10 +37,16 @@ namespace Xk7
                 FatalError(null);
             MainFrame.Show();
         }
-        internal static void FatalError(string? message)
+        public static void FatalError(string? message)
         {
             MessageBox.Show(message ?? "Unknown error.", "Fatal error", MessageBoxButton.OK, MessageBoxImage.Error);
             Environment.Exit(0);
+        }
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            //base.OnStartup(e);
+            //var view = await NotificationView.CreateAsync();
+            //view.Show();
         }
         internal static DbAsyncService? ConfigureDefaultDbService(Error error)
         {
