@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using Xk7.Views;
 
 namespace Xk7.pages
 {
@@ -90,11 +91,12 @@ namespace Xk7.pages
             try
             {
                 var user = new User(UserRole.User, login, new HashedValue(password), name, secondName, birth, false);
+
                 var result = await _dbAsyncService.AddUserAsync(user);
                 switch (result)
                 {
                     case AddUserResult.Success:
-                        MessageBox.Show(UICultureService.GetProperty("SuccessRegistration"), "Registration", MessageBoxButton.OK, MessageBoxImage.Information);
+                        App.MainFrame.Navigate(new UserProfile(_dbAsyncService, new DbUser(user)));
                         await _dbAsyncService.AddLog(login, LoggingType.SuccessRegistration);
                         break;
                     case AddUserResult.UserExists:

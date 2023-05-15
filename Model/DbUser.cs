@@ -120,7 +120,17 @@ namespace Xk7.Model
             IsBlocked = isBlocked;
         }
 
-       
+        public DbUser(User user)
+        {
+            IdUserRole = (uint)user.IdUserRole;
+            Login = user.Login;
+            HashPassword = Encoding.UTF8.GetBytes(user.Password.Value);
+            FirstName = firstName;
+            SecondName = secondName;
+            DateBirthday = new DateTime(user.DateBirthday.Year, user.DateBirthday.Month, user.DateBirthday.Day, 0, 0, 0);
+            IsBlocked = isBlocked;
+        }
+
         public override string ToString()
         {
             return

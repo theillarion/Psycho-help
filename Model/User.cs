@@ -24,6 +24,8 @@ namespace Xk7.Model
             DateBirthday = dateBirthday;
             IsBanned = isBanned;
         }
+
+
         public override string ToString()
         {
             return $"[ IdUserRole: {IdUserRole}, Login: {Login}, Password: {Password}, FirstName: {FirstName}, " +
