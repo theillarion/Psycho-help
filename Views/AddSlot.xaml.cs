@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -65,14 +67,34 @@ namespace Xk7.Views
 
         }
 
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        private async void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if  (DateSeccionTextBox.Text == String.Empty)
+            {
+                App.MainFrame.Navigate(new UserPanel(_user));
+            }
+            else
+            {
+                string userLogin = _user.Login;
+                PsychologistSlot selectedPsychologistSlot = PsychoNameComboBox.SelectedItem as PsychologistSlot;
+                string dateOnly  = selectedPsychologistSlot.SlotDate.ToString("yyyy-MM-dd");
+                string timeOnly  = selectedPsychologistSlot.SlotTime.ToString("hh':'mm':'ss");
+                var result = await _dbAsyncService.setBusyGetId(userLogin, dateOnly, timeOnly);
+
+                DataRow row = result[0]; // получение первой строки из коллекции
+                object value = row["Id"]; // получение значения из столбца по имени
+                uint id = Convert.ToUInt32(value); // преобразование значения в тип uint
+                await _dbAsyncService.InsertUserTimeTable(id, _user.Login);
+                App.MainFrame.Navigate(new UserPanel(_user));
+            }
+
+
 
         }
         private void SelectedChoosed(object sender, SelectionChangedEventArgs e)
         {
             PsychologistSlot selectedPsychologistSlot = PsychoNameComboBox.SelectedItem as PsychologistSlot;
-            string dateOnly = selectedPsychologistSlot.SlotDate.ToString("dd.MM.yyyy");
+            string dateOnly = selectedPsychologistSlot.SlotDate.ToString("dd-MM-yyyy");
             string timeOnly = selectedPsychologistSlot.SlotTime.ToString("hh':'mm':'ss");
             DateSeccionTextBox.Text = dateOnly + " " + timeOnly;
 

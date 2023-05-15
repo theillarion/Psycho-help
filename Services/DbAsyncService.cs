@@ -434,6 +434,89 @@ namespace Xk7.Services
             }
 
         }
+
+        public async Task<DataRowCollection?> setBusyGetId(string? userLogin, string dateOnly, string timeOnly)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+            try
+            {
+                await using var command = _connection.CreateCommand();
+
+                command.AddParameterWithValue("@userLogin", userLogin);
+                command.AddParameterWithValue("@dateOnly", dateOnly);
+                command.AddParameterWithValue("@timeOnly", timeOnly);
+
+                command.CommandText =   $"UPDATE `Timetable`" +
+                                        $"SET `IsBusy` = 1 " +
+                                        $"WHERE `EmployeeLogin` =  @userLogin AND `SlotDate` =  @dateOnly AND `SlotTime` =  @timeOnly";
+
+                await using var reader1 = await command.ExecuteReaderAsync();
+                reader1.Close();
+                command.CommandText = $"SELECT `Id` FROM `Timetable`" +
+                                        $"WHERE `EmployeeLogin` =  @userLogin AND `SlotDate` =  @dateOnly AND `SlotTime` =  @timeOnly";
+
+                await using var reader = await command.ExecuteReaderAsync();
+                if (!reader.HasRows)
+                    return null;
+                using var result = new DataTable();
+                result.Load(reader);
+                return result.Rows;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+
+        public async Task insertUserSlot(string? userLogin, string dateOnly, string timeOnly)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+            try
+            {
+                await using var command = _connection.CreateCommand();
+
+                command.AddParameterWithValue("@userLogin", userLogin);
+                command.AddParameterWithValue("@dateOnly", dateOnly);
+                command.AddParameterWithValue("@timeOnly", timeOnly);
+
+                command.CommandText = $"UPDATE `Timetable`" +
+                                        $"SET `IsBusy` = 1 " +
+                                        $"WHERE `EmployeeLogin` =  @userLogin AND `SlotDate` =  @dateOnly AND `SlotOnly` =  @timeOnly";
+
+                await using var reader = await command.ExecuteReaderAsync();
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
+
+        public async Task InsertUserTimeTable(uint id, string? login)
+        {
+            if (_connection is not { State: ConnectionState.Open })
+                throw new ConnectionException("Connection refused");
+            try
+            {
+                await using var command = _connection.CreateCommand();
+
+                command.AddParameterWithValue("@Id", id);
+                command.AddParameterWithValue("@login", login);
+
+                command.CommandText = $"INSERT " +
+                                        $"INTO `UserTimetable` " +
+                                        $"VALUES (@Id, @login)";
+
+                await using var reader = await command.ExecuteReaderAsync();
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw new ExecuteException(ex.Message);
+            }
+        }
     }
 
 }

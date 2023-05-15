@@ -27,5 +27,7 @@ namespace Xk7.Services
         Task<DataRowCollection?> GetSlotsRowsByLogin(string login);
         Task<bool> DeleteSlot(uint id);
         Task<DataRowCollection?> GetFreeSlotsRows();
+        Task<DataRowCollection?> setBusyGetId(string? userLogin, string dateOnly, string timeOnly);
+        Task InsertUserTimeTable(uint id, string? login);
     }
 }
