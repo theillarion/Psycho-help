@@ -96,9 +96,9 @@ namespace Xk7.pages
                     }
                     else
                     {
-                        if (user.IdUserRole > (uint)UserRole.SuperAdmin)
+                        if (user.IdUserRole == (uint)UserRole.SuperAdmin)
                             App.MainFrame.Navigate(await AdminPanel.CreateAsync());
-                        else if (user.IdUserRole == (uint)UserRole.SuperAdmin)
+                        else if (user.IdUserRole < (uint)UserRole.SuperAdmin)
                             App.MainFrame.Navigate(new UserProfile(_dbAsyncService, (DbUser)user));
                         else
                             MessageBox.Show("User has been successfully authorized", "Authentication", MessageBoxButton.OK, MessageBoxImage.Information);

@@ -127,5 +127,9 @@ namespace Xk7.Views
             DataContext = dataViewModel;
         }
 
+        private void NotificationButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainFrame.Navigate(new NotificationView(_user));
+        }
     }
 }

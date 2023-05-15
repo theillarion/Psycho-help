@@ -1,13 +1,12 @@
-﻿<Page x:Class="Xk7.Views.UserPanel"
+﻿<Page x:Class="Xk7.Views.NotificationView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Xk7.pages"
-      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+      xmlns:local="clr-namespace:Xk7.Views" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
-      d:DesignHeight="702" d:DesignWidth="1248"
-      Title="UserPanel">
+      d:DesignHeight="720" d:DesignWidth="1248"
+      Title="Notification">
 
     <Border CornerRadius="30">
         <Grid>
@@ -91,43 +90,26 @@
                 </Grid.RowDefinitions>
 
 
-                <!--Top buttons-->
-                <Button Style="{StaticResource topButton}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black" Click ="ChangeLanguageClick" >
-                    <Icon:PackIconMaterial Kind="Earth" Height="35" Width="30"/>
-                </Button>
+               
 
                 <!--Page Title-->
-                <TextBlock Text="Slots" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="Black" HorizontalAlignment="Left"/>
+                <TextBlock Text="Your notifications" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="Black" HorizontalAlignment="Left"/>
 
-                <!--Add Button-->
-                <Button Style="{StaticResource addButton}" x:Name="AddSlotButton" Click="AddSlotButton_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <Icon:PackIconMaterial Kind="Plus" Foreground="Black" VerticalAlignment="Center" Margin="0 1 8 0" Width="11" Height="11"/>
-                        <TextBlock Foreground="Black" Text="Add new slot"/>
-                    </StackPanel>
+                <!--Top buttons-->
+                <Button Style="{StaticResource topButton}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">
+                    <Icon:PackIconMaterial Kind="Earth" Height="35" Width="30"/>
                 </Button>
-
+                
                 <!--Seprator-->
                 <Separator Height="1" Grid.Row="3" Background="#DAE2EA" Margin="0 -1 0 20"/>
 
                 <!--Data Grid-->
-                <DataGrid ItemsSource="{Binding Slots}" RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbUserSlots" Style="{DynamicResource DataGridStyle1}">
+                <DataGrid ItemsSource="{Binding Notifies}" RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="dbUserSlots" Style="{DynamicResource DataGridStyle1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding IdTimetable}"/>
-                        <DataGridTextColumn Header="Psychologist name" Binding="{Binding EmployeeLogin}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Slot Date" Binding="{Binding SlotDate}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Slot Time" Binding="{Binding SlotTime}" IsReadOnly="True" Width="*"/>
-                        <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="UserPanelDeleteButton">
-                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
-                                        </Button>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Time" Binding="{Binding DateTimeCreated}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Checked" Binding="{Binding IsChecked}" IsReadOnly="True" Width="*"/>
+              
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

@@ -66,5 +66,10 @@ namespace Xk7.Views
         {
             App.MainFrame.Navigate(new UserPanel(_user));
         }
+
+        private void NotificationButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainFrame.Navigate(new NotificationView(_user));
+        }
     }
 }

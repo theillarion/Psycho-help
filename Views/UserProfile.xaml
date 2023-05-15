@@ -58,6 +58,12 @@
                                 <TextBlock Text="Slots" Foreground="Black"></TextBlock>
                             </StackPanel>
                         </Button>
+                        <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="NotificationButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="bell" Style="{StaticResource menuButtonIcon}"></Icon:PackIconMaterial>
+                                <TextBlock Text="Notificates" Foreground="Black"></TextBlock>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                     
 

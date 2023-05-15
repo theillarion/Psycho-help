@@ -29,5 +29,7 @@ namespace Xk7.Services
         Task<DataRowCollection?> GetFreeSlotsRows();
         Task<DataRowCollection?> setBusyGetId(string? userLogin, string dateOnly, string timeOnly);
         Task InsertUserTimeTable(uint id, string? login);
+        Task<DataRowCollection?> GetAllNotifications(string login, DateTime dateTimeBefore);
+        Task<DataRowCollection?> GetNewNotifications(string login);
     }
 }
