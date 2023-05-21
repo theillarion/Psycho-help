@@ -51,3 +51,12 @@
 
 Результаты покрытия кода тестами находятся в файле "coverage results.txt".
 
+![Снимок экрана 2023-05-22 005038](https://github.com/theillarion/Psycho-help/assets/119236151/988aade7-b84e-4746-86e1-c51502235193)
+
+
+Добавлены новые тесты для класса NotificationView:
+1.  CreateAsync_WhenCalled_ReturnsNotificationViewInstance проверяет, что при вызове метода `CreateAsync` с правильными параметрами возвращается экземпляр класса `NotificationView`. 
+2.  CreateAsync_WhenDbServiceThrowsConnectionException_CallsFatalError проверяет, что при выбрасывании исключения `ConnectionException` вызывается метод `FatalError`.
+3.  UpdateNotificationsAsync_WhenNewNotificationsExist_AddsNotificationsToViewModel проверяет, что при вызове `UpdateNotificationsAsync` и получении новых уведомлений, они добавляются в модель представления `dataViewModel`.
+4.  CreateAsync_AddsNotificationsToViewModel проверяет, что при вызове метода `CreateAsync`, новые уведомления добавляются в модель представления `dataViewModel`.
+5.  UpdateNotificationsAsync_AddsNewNotificationsToViewModel проверяет, что при вызове `UpdateNotificationsAsync`, новые уведомления добавляются в модель представления `dataViewModel`.
